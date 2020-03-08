@@ -1,0 +1,1 @@
+O motivo para não executar corretamente é a ausência de um ficheiro "infile.txt" no diretório atual.
