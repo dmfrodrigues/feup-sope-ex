@@ -16,7 +16,7 @@ int main(int argc, char *argv[], char *envp[]) {
             argv[1]);
     else if (pid == 0) {
         char *args[] = {"ls", "-laR", argv[1], NULL};
-        execvp("/bin/ls", args);
+        execve("/bin/ls", args, envp);
         printf("Command not executed !\n");
         exit(1);
     }

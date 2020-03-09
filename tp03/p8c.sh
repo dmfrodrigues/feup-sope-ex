@@ -1,2 +1,2 @@
-gcc -Wall p8b.c -o p8b
-./p8b .
+gcc -Wall p8c.c -o p8c
+./p8c .
