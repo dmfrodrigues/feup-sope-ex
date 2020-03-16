@@ -1,0 +1,1 @@
+Além do processo-pai poder ter que ficar parado tanto tempo quanto necessário para um filho acabar de executar, também só liberta um filho a cada 20 segundos.
