@@ -26,13 +26,11 @@ int main() {
         ans = open("/tmp/fifo_ans", O_RDONLY);
         if (ans == -1) sleep(1);
     } while (ans == -1);
-    printf("L29\n");
     int a, b;
     scanf("%d %d", &a, &b);
     char buf[256];
-    sprintf(buf, "%d %d\n", a, b);
-    write(req, buf, strlen(buf));
-    printf("JUST WRITTEN '%s'\n", buf);
+    sprintf(buf, "%d %d", a, b);
+    write(req, buf, strlen(buf)+1);
     int sum, sub, mul;
     char c;
     float div;
