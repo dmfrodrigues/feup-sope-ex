@@ -11,7 +11,9 @@
 int readline(int fd, char *str) {
     int n;
     do {
+        printf("ABOUT TO READ from %d to %ld\n", fd, (long)str);
         n = read(fd, str, 1);
+        printf("JUST READ %c (%d) with code %d\n", *str, *str, n);
     } while (n > 0 && *str++ != '\0');
     return (n > 0);
 }
@@ -26,6 +28,7 @@ int main() {
     int a, b;
     char buf[256];
     while(readline(req, buf) == 0){}
+    printf("L30\n");
     sscanf(buf, "%d %d", &a, &b);
     printf("JUST READ %d %d\n", a, b);
     char c;
