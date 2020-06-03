@@ -50,8 +50,8 @@ void* mysort(void *arg_in){
     pthread_create(&tid2, NULL, mysort, arg2);
 
     int *ret_ = NULL;
-    pthread_join(tid1, (void**)&ret_); if(*ret_){ /*free(ret_);*/ *ret = EXIT_FAILURE; return ret; } //free(ret_); ret_ = NULL;
-    pthread_join(tid2, (void**)&ret_); if(*ret_){ /*free(ret_);*/ *ret = EXIT_FAILURE; return ret; } //free(ret_); ret_ = NULL;
+    pthread_join(tid1, (void**)&ret_); if(*ret_){ *ret = EXIT_FAILURE; return ret; }
+    pthread_join(tid2, (void**)&ret_); if(*ret_){ *ret = EXIT_FAILURE; return ret; }
     
     //merge
     val_t *new = calloc(arg->N, sizeof(val_t));

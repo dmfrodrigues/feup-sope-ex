@@ -37,7 +37,8 @@ int matrix_print(const matrix_t *mat){
     }
     return EXIT_SUCCESS;
 }
-int matrix_mul_compute_element(const matrix_t *A, const matrix_t *B, matrix_t *C, size_t m, size_t n){
+int matrix_mul_compute_element(const matrix_t *A, const matrix_t *B, matrix_t *C,
+                               size_t m, size_t n){
     val_t ret = 0;
     size_t K = A->N;
     for(size_t k = 0; k < K; ++k){
@@ -179,7 +180,7 @@ void* matrix_mul_d_work(void *arg_in){
     *ret = EXIT_SUCCESS;
     arg_d_t *arg = arg_in;
     size_t i;
-    while((i = next_i) < arg->C->M*arg->C->N){ //printf("called, i=%d, thread = %ld\n", i, pthread_self());
+    while((i = next_i) < arg->C->M*arg->C->N){
         next_i = i+1;
         size_t m = i/arg->C->N, n = i%arg->C->N;
         if(matrix_mul_compute_element(arg->A, arg->B, arg->C, m, n)){
@@ -207,7 +208,8 @@ int matrix_mul_d(const matrix_t *A, const matrix_t *B, matrix_t *C){
     return EXIT_SUCCESS;
 }
 
-int matrix_mul(const matrix_t *A, const matrix_t *B, matrix_t *C, int (*f)(const matrix_t*, const matrix_t*, matrix_t*)){
+int matrix_mul(const matrix_t *A, const matrix_t *B, matrix_t *C,
+               int (*f)(const matrix_t*, const matrix_t*, matrix_t*)){
     if(A->N != B->M) return EXIT_FAILURE;
     C->M = A->M;
     C->N = B->N;

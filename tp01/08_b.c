@@ -13,11 +13,11 @@ int main(int argc, char *argv[]){
     int i = 0;
     int n;
 
-    struct tms *tms_start = malloc(sizeof(struct tms));
-    struct tms *tms_end   = malloc(sizeof(struct tms));
+    struct tms *t_start = malloc(sizeof(struct tms));
+    struct tms *t_end   = malloc(sizeof(struct tms));
     clock_t start, end;
 
-    start = times(tms_start);
+    start = times(t_start);
 
     do{
         n = rand()%n1;
@@ -25,13 +25,13 @@ int main(int argc, char *argv[]){
         ++i;
     }while(n != n2);
 
-    end = times(tms_end);
+    end = times(t_end);
 
     const int ticks_seg = sysconf(_SC_CLK_TCK);
 
     printf("Tempo real: %f s\n", (float)(end-start)/ticks_seg);
-    printf("Tempo user: %f s\n", (float)(tms_end->tms_utime - tms_start->tms_utime)/ticks_seg);
-    printf("Tempo syst: %f s\n", (float)(tms_end->tms_stime - tms_start->tms_stime)/ticks_seg);
+    printf("Tempo user: %f s\n", (float)(t_end->tms_utime-t_start->tms_utime)/ticks_seg);
+    printf("Tempo syst: %f s\n", (float)(t_end->tms_stime-t_start->tms_stime)/ticks_seg);
 
     return 0;
 }
