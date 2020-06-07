@@ -14,18 +14,19 @@ int npos;
 sem_t *sem = NULL;  // semaforo p/a sec.critica
 const char *SEM_NAME = "/sem1";
 
-int buf[MAXELEMS], pos = 0, val = 0;              // variaveis partilhadas
+int *buf = NULL;
+int *pos = NULL, *val = NULL;              // variaveis partilhadas
 
 void *fill(void *nr) {
     while (1) {
         sem_wait(sem);
-        if (pos >= npos) {
+        if (*pos >= npos) {
             sem_post(sem);
             return NULL;
         }
-        buf[pos] = val;
-        pos++;
-        val++;
+        buf[*pos] = *val;
+        (*pos)++;
+        (*val)++;
         sem_post(sem);
         *(int *)nr += 1;
     }
@@ -41,6 +42,9 @@ void *verify(void *arg) {
 
 int main(int argc, char *argv[]) {
     sem = sem_open(SEM_NAME, O_CREAT, 0600, 1);
+    buf = calloc(MAXELEMS, sizeof(int));
+    pos = malloc(sizeof(int));
+    val = malloc(sizeof(int));
 
     int nthr, count[MAXTHREADS];    // array para contagens
     pthread_t tidf[MAXTHREADS], tidv;  // tids dos threads
@@ -69,8 +73,11 @@ int main(int argc, char *argv[]) {
     pthread_create(&tidv, NULL, verify, NULL);
     pthread_join(tidv, NULL);  // espera thread 'verify'
 
-    sem_close(sem);
+    sem_close(sem); sem = NULL;
     sem_unlink(SEM_NAME);
+    free(buf); buf = NULL;
+    free(pos); pos = NULL;
+    free(val); val = NULL;
 
     return 0;
 }
