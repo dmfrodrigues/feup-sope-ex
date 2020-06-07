@@ -3,7 +3,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <semaphore.h>
+#include <unistd.h>
+#include <sys/types.h>
 #include <fcntl.h>
+#include <sys/mman.h>
 #define MAXELEMS 10000000  // nr. max de posicoes
 #define MAXTHREADS 100     // nr. max de threads
 #define min(a, b) (a) < (b) ? (a) : (b)
@@ -14,8 +17,12 @@ int npos;
 sem_t *sem = NULL;  // semaforo p/a sec.critica
 const char *SEM_NAME = "/sem1";
 
+const char *BUF_NAME = "/buf1";
 int *buf = NULL;
-int *pos = NULL, *val = NULL;              // variaveis partilhadas
+const char *POS_NAME = "/pos1";
+int *pos = NULL;
+const char *VAL_NAME = "/val1";
+int *val = NULL;              // variaveis partilhadas
 
 void *fill(void *nr) {
     while (1) {
@@ -41,10 +48,22 @@ void *verify(void *arg) {
 }
 
 int main(int argc, char *argv[]) {
+    // Semaforo
     sem = sem_open(SEM_NAME, O_CREAT, 0600, 1);
-    buf = calloc(MAXELEMS, sizeof(int));
-    pos = malloc(sizeof(int));
-    val = malloc(sizeof(int));
+    // buf
+    int buf_fd = shm_open(BUF_NAME, O_CREAT|O_RDWR, 0600);
+    ftruncate(buf_fd, sizeof(int)*MAXELEMS);
+    buf = mmap(NULL, sizeof(int)*MAXELEMS, PROT_READ|PROT_WRITE, MAP_SHARED, buf_fd, 0);
+    // pos
+    int pos_fd = shm_open(POS_NAME, O_CREAT|O_RDWR, 0600);
+    ftruncate(pos_fd, sizeof(int));
+    pos = mmap(NULL, sizeof(int), PROT_READ|PROT_WRITE, MAP_SHARED, pos_fd, 0);
+    *pos = 0;
+    // val
+    int val_fd = shm_open(VAL_NAME, O_CREAT|O_RDWR, 0600);
+    ftruncate(val_fd, sizeof(int));
+    val = mmap(NULL, sizeof(int), PROT_READ|PROT_WRITE, MAP_SHARED, val_fd, 0);
+    *val = 0;
 
     int nthr, count[MAXTHREADS];    // array para contagens
     pthread_t tidf[MAXTHREADS], tidv;  // tids dos threads
@@ -73,11 +92,10 @@ int main(int argc, char *argv[]) {
     pthread_create(&tidv, NULL, verify, NULL);
     pthread_join(tidv, NULL);  // espera thread 'verify'
 
-    sem_close(sem); sem = NULL;
-    sem_unlink(SEM_NAME);
-    free(buf); buf = NULL;
-    free(pos); pos = NULL;
-    free(val); val = NULL;
+    sem_close(sem); sem = NULL; sem_unlink(SEM_NAME);
+    munmap(buf, sizeof(int)*MAXELEMS); buf = NULL; shm_unlink(BUF_NAME);
+    munmap(pos, sizeof(int)         ); pos = NULL; shm_unlink(POS_NAME);
+    munmap(val, sizeof(int)         ); val = NULL; shm_unlink(VAL_NAME);
 
     return 0;
 }
