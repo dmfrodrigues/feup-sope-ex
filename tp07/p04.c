@@ -2,25 +2,27 @@
 #include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <semaphore.h>
 #define MAXELEMS 10000000  // nr. max de posicoes
 #define MAXTHREADS 100     // nr. max de threads
 #define min(a, b) (a) < (b) ? (a) : (b)
+#define SHARED 0 //partilhado entre threads do mesmo processo
 
 int npos;
-pthread_mutex_t mut = PTHREAD_MUTEX_INITIALIZER;  // mutex p/a sec.critica
+sem_t sem;  // semaforo p/a sec.critica
 int buf[MAXELEMS], pos = 0, val = 0;              // variaveis partilhadas
 
 void *fill(void *nr) {
     while (1) {
-        pthread_mutex_lock(&mut);
+        sem_wait(&sem);
         if (pos >= npos) {
-            pthread_mutex_unlock(&mut);
+            sem_post(&sem);
             return NULL;
         }
         buf[pos] = val;
         pos++;
         val++;
-        pthread_mutex_unlock(&mut);
+        sem_post(&sem);
         *(int *)nr += 1;
     }
 }
@@ -34,6 +36,8 @@ void *verify(void *arg) {
 }
 
 int main(int argc, char *argv[]) {
+    sem_init(&sem, SHARED, 1);
+
     int nthr, count[MAXTHREADS];    // array para contagens
     pthread_t tidf[MAXTHREADS], tidv;  // tids dos threads
 
