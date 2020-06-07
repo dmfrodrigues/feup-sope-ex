@@ -7,6 +7,7 @@
 #include <sys/types.h>
 #include <fcntl.h>
 #include <sys/mman.h>
+#include <sys/wait.h>
 #define MAXELEMS 10000000  // nr. max de posicoes
 #define MAXTHREADS 100     // nr. max de threads
 #define min(a, b) (a) < (b) ? (a) : (b)
@@ -73,7 +74,8 @@ int main(int argc, char *argv[]) {
     ftruncate(count_fd, sizeof(int)*MAXTHREADS);
     count = mmap(NULL, sizeof(int)*MAXTHREADS, PROT_READ|PROT_WRITE, MAP_SHARED, count_fd, 0);  
     
-    pthread_t tidf[MAXTHREADS], tidv;  // tids dos threads
+    pid_t pidf[MAXTHREADS];  // tids dos threads
+    pthread_t tidv;
 
     if (argc != 3) {
         printf("Usage: %s <nr_pos> <nr_thrs>\n", argv[0]);
@@ -85,12 +87,12 @@ int main(int argc, char *argv[]) {
 
     for (int k = 0; k < nthr; k++) {            // criacao das threads 'fill'
         count[k] = 0;
-        pthread_create(&tidf[k], NULL, fill, &count[k]);
+        if((pidf[k] = fork()) == 0){ fill(&count[k]); return 0; }
     }
 
     int total = 0;
     for (int k = 0; k < nthr; k++) {  // espera threads 'fill'
-        pthread_join(tidf[k], NULL);
+        waitpid(pidf[k], NULL, 0);
         printf("count[%d] = %d\n", k, count[k]);
         total += count[k];
     }
