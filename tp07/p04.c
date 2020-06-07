@@ -24,6 +24,10 @@ int *pos = NULL;
 const char *VAL_NAME = "/val1";
 int *val = NULL;              // variaveis partilhadas
 
+int nthr;
+const char *COUNT_NAME = "/count1";
+int *count = NULL;    
+
 void *fill(void *nr) {
     while (1) {
         sem_wait(sem);
@@ -65,7 +69,11 @@ int main(int argc, char *argv[]) {
     val = mmap(NULL, sizeof(int), PROT_READ|PROT_WRITE, MAP_SHARED, val_fd, 0);
     *val = 0;
 
-    int nthr, count[MAXTHREADS];    // array para contagens
+    // array para contagens
+    int count_fd = shm_open(COUNT_NAME, O_CREAT|O_RDWR, 0600);
+    ftruncate(count_fd, sizeof(int)*MAXTHREADS);
+    count = mmap(NULL, sizeof(int)*MAXTHREADS, PROT_READ|PROT_WRITE, MAP_SHARED, count_fd, 0);  
+    
     pthread_t tidf[MAXTHREADS], tidv;  // tids dos threads
 
     if (argc != 3) {
@@ -93,9 +101,10 @@ int main(int argc, char *argv[]) {
     pthread_join(tidv, NULL);  // espera thread 'verify'
 
     sem_close(sem); sem = NULL; sem_unlink(SEM_NAME);
-    munmap(buf, sizeof(int)*MAXELEMS); buf = NULL; shm_unlink(BUF_NAME);
-    munmap(pos, sizeof(int)         ); pos = NULL; shm_unlink(POS_NAME);
-    munmap(val, sizeof(int)         ); val = NULL; shm_unlink(VAL_NAME);
+    munmap(buf  , sizeof(int)*MAXELEMS); buf   = NULL; shm_unlink(BUF_NAME  );
+    munmap(pos  , sizeof(int)         ); pos   = NULL; shm_unlink(POS_NAME  );
+    munmap(val  , sizeof(int)         ); val   = NULL; shm_unlink(VAL_NAME  );
+    munmap(count, sizeof(int)         ); count = NULL; shm_unlink(COUNT_NAME);
 
     return 0;
 }
