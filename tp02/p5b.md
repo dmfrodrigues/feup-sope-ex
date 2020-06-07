@@ -1,14 +1,18 @@
-O_EXCL
+**O_EXCL**
+
 - se O_CREAT estiver ativado e o ficheiro existir, falha.
 - se O_CREAT estiver desativado, undefined behaviour.
 
-O_APPEND
+**O_APPEND**
+
 - em vez de escrever no cursor que cada programa tem, escreve sempre no final.
 
-O_TRUNC
+**O_TRUNC**
+
 - remover todo o conteúdo do ficheiro no início
 
-O_SYNC
+**O_SYNC**
+
 - não altera nada em termos de operações lentas (que são o caso).
 - em operações rápidas, a função write() só retorna quando a operação de escrita estiver terminada.
 - de outra forma, o conteúdo passado a write() é copiado para um buffer e escrito para o ficheiro quando está cheio ou depois de algum tempo

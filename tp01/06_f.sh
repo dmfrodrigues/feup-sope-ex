@@ -1,5 +1,6 @@
 gcc -Wall 06_e.c
-echo -e 'This is some random content for infile.txt.\nIt is as meaningless as expected.\n' > infile.txt
+echo -e 'This is some random content for infile.txt.\n'\
+'It is as meaningless as expected.\n' > infile.txt
 echo infile.txt:
 cat infile.txt
 ./a.out
