@@ -24,7 +24,6 @@ int *pos = NULL;
 const char *VAL_NAME = "/val1";
 int *val = NULL;              // variaveis partilhadas
 
-int nthr;
 const char *COUNT_NAME = "/count1";
 int *count = NULL;    
 
@@ -82,7 +81,7 @@ int main(int argc, char *argv[]) {
     }
     
     npos = min(atoi(argv[1]), MAXELEMS);    // no. efectivo de posicoes
-    nthr = min(atoi(argv[2]), MAXTHREADS);  // no. efectivo de threads
+    int nthr = min(atoi(argv[2]), MAXTHREADS);  // no. efectivo de threads
 
     for (int k = 0; k < nthr; k++) {            // criacao das threads 'fill'
         count[k] = 0;
