@@ -3,26 +3,30 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <semaphore.h>
+#include <fcntl.h>
 #define MAXELEMS 10000000  // nr. max de posicoes
 #define MAXTHREADS 100     // nr. max de threads
 #define min(a, b) (a) < (b) ? (a) : (b)
-#define SHARED 0 //partilhado entre threads do mesmo processo
+#define SHARED 1 //partilhado entre threads do mesmo processo
 
 int npos;
-sem_t sem;  // semaforo p/a sec.critica
+
+sem_t *sem = NULL;  // semaforo p/a sec.critica
+const char *SEM_NAME = "/sem1";
+
 int buf[MAXELEMS], pos = 0, val = 0;              // variaveis partilhadas
 
 void *fill(void *nr) {
     while (1) {
-        sem_wait(&sem);
+        sem_wait(sem);
         if (pos >= npos) {
-            sem_post(&sem);
+            sem_post(sem);
             return NULL;
         }
         buf[pos] = val;
         pos++;
         val++;
-        sem_post(&sem);
+        sem_post(sem);
         *(int *)nr += 1;
     }
 }
@@ -36,7 +40,7 @@ void *verify(void *arg) {
 }
 
 int main(int argc, char *argv[]) {
-    sem_init(&sem, SHARED, 1);
+    sem = sem_open(SEM_NAME, O_CREAT, 0600, 1);
 
     int nthr, count[MAXTHREADS];    // array para contagens
     pthread_t tidf[MAXTHREADS], tidv;  // tids dos threads
@@ -64,5 +68,9 @@ int main(int argc, char *argv[]) {
 
     pthread_create(&tidv, NULL, verify, NULL);
     pthread_join(tidv, NULL);  // espera thread 'verify'
+
+    sem_close(sem);
+    sem_unlink(SEM_NAME);
+
     return 0;
 }
