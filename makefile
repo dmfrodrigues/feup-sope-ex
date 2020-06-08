@@ -1,6 +1,8 @@
 all:
 
-test:
-	make -C tp01 test
-	make -C tp02 test
-	make -C tp03 test
+test: tp01 tp02 tp03
+
+tp%: FORCE
+	make -C $@ test
+
+FORCE:
