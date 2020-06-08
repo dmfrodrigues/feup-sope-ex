@@ -23,6 +23,6 @@ test:
 	./p07_a.sh
 	./p07_b.sh
 	./p08_a.sh
-	./p08_b.sh
+	./p08_b.sh > /dev/null
 	./p09_a.sh
 	
