@@ -1,6 +1,7 @@
 all:
 
 test:
+	chmod u+x *.sh
 	./p02_a.sh
 	./p02_b.sh
 	./p03_a.sh
