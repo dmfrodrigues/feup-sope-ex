@@ -1,2 +1,4 @@
-gcc -Wall p5.c -o p5
-./p5
+set -e
+
+gcc -Wall p05.c -o p05
+./p05

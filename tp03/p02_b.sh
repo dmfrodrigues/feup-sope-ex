@@ -1,2 +1,4 @@
-gcc -Wall p2.c -o p2
-./p2
+set -e
+
+gcc -Wall p02.c -o p02
+./p02

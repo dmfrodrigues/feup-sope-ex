@@ -1,2 +1,4 @@
-gcc -Wall p4b.c -o p4b
-./p4b
+set -e
+
+gcc -Wall p04_b.c -o p04_b
+./p04_b

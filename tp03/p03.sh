@@ -1,2 +1,4 @@
-gcc -Wall p3.c -o p3
-./p3 | more
+set -e
+
+gcc -Wall p03.c -o p03
+./p03

@@ -1,2 +1,4 @@
-gcc -Wall p8c.c -o p8c
-./p8c .
+set -e
+
+gcc -Wall p08_c.c -o p08_c
+./p08_c .
