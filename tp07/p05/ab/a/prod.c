@@ -34,18 +34,18 @@ int main(int argc, char *argv[]){
     const int N = atoi(argv[2]);
 
     create_shared_memory();
-    sem_init(&mem->empty, SHARED, N);
-    sem_init(&mem->full , SHARED, 0);
+    sem_init(&mem->slots, SHARED, N);
+    sem_init(&mem->items , SHARED, 0);
     sem_init(&mem->mutex, SHARED, 1);
     
     for(int i = 0; i < num_items; ++i){
         int item = produce(i);
-        sem_wait(&mem->empty);
+        sem_wait(&mem->slots);
         sem_wait(&mem->mutex);
         queue_push(&mem->buffer, item);
         if(num_items <= 20) printf("+ Produced %d, now have %lu items\n", item, mem->buffer.size);
         sem_post(&mem->mutex);
-        sem_post(&mem->full);
+        sem_post(&mem->items);
     }
     printf("Produced %d items, with a total value of %d\n", num_items, total_produced);
 

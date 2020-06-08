@@ -44,12 +44,12 @@ void* produce_thread_func(void *args){
     printf("Going to produce %d items\n", num_items);
     for(int i = 0; i < num_items; ++i){
         int item = produce(i);
-        sem_wait(&mem->empty);
+        sem_wait(&mem->slots);
         sem_wait(&mem->mutex);
         queue_push(&mem->buffer, item);
         if(num_items <= 20) printf("+ Produced %d, now have %lu items\n", item, mem->buffer.size);
         sem_post(&mem->mutex);
-        sem_post(&mem->full);
+        sem_post(&mem->items);
     }
     printf("Produced %d items, with a total value of %d\n", num_items, total_produced);
     return NULL;
@@ -59,12 +59,12 @@ void* consume_thread_func(void *args){
     const int num_items = *(int *)args;
     printf("Going to consume %d items\n", num_items);
     for(int i = 0; i < num_items; ++i){
-        sem_wait(&mem->full);
+        sem_wait(&mem->items);
         sem_wait(&mem->mutex);
         int item = queue_pop(&mem->buffer);
         if(num_items <= 20) printf("- Consumed %d, now have %lu items\n", item, mem->buffer.size);
         sem_post(&mem->mutex);
-        sem_post(&mem->empty);
+        sem_post(&mem->slots);
         consume(item);
         if(item != i+1) printf("Expecting to consume %d but consumed %d\n", i+1, item);
     }
@@ -77,8 +77,8 @@ int main(int argc, char *argv[]){
     const int N = atoi(argv[2]);
 
     create_shared_memory();
-    sem_init(&mem->empty, SHARED, N);
-    sem_init(&mem->full , SHARED, 0);
+    sem_init(&mem->slots, SHARED, N);
+    sem_init(&mem->items , SHARED, 0);
     sem_init(&mem->mutex, SHARED, 1);
 
     pthread_t producer_tid;

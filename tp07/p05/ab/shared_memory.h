@@ -15,8 +15,8 @@
 typedef struct {
     queue_t buffer;
     sem_t mutex;
-    sem_t empty;
-    sem_t full;
+    sem_t slots; //or empty
+    sem_t items; //or full
 } shared_memory_t;
 
 void shared_memory_init(shared_memory_t *mem);

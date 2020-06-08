@@ -34,12 +34,12 @@ int main(int argc, char *argv[]){
     open_shared_memory();
 
     for(int i = 0; i < num_items; ++i){
-        sem_wait(&mem->full);
+        sem_wait(&mem->items);
         sem_wait(&mem->mutex);
         int item = queue_pop(&mem->buffer);
         if(num_items <= 20) printf("- Consumed %d, now have %lu items\n", item, mem->buffer.size);
         sem_post(&mem->mutex);
-        sem_post(&mem->empty);
+        sem_post(&mem->slots);
         consume(item);
         if(item != i+1) printf("Expecting to consume %d but consumed %d\n", i+1, item);
     }
