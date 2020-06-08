@@ -15,5 +15,5 @@ test:
 	./p08_c.sh
 	./p08_d.sh
 	./p08_e.sh
-	# ./p09_a.sh
+	./p09_a.sh
 	# ./p10.sh
