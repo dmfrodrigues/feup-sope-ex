@@ -1,3 +1,5 @@
-gcc -Wall 07_a.c
+set -e
+
+gcc -Wall p07_a.c
 ./a.out
 echo $?

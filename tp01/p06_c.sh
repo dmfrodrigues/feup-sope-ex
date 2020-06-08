@@ -1,3 +1,3 @@
-gcc -Wall 06_a.c
+gcc -Wall p06_a.c
 ./a.out
-echo $?
+echo $? #1

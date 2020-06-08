@@ -1,3 +1,3 @@
-gcc -Wall 06_g.c -o 06_g.out
-./06_g.out
-echo $?
+gcc -Wall p06_g.c -o p06_g
+./p06_g #errno: 14
+echo $? #1

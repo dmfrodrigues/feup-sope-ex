@@ -1,3 +1,5 @@
-gcc -Wall 05_b.c
+set -e
+
+gcc -Wall p05_b.c
 ./a.out Rui Silva
 ./a.out

@@ -1,2 +1,2 @@
-gcc -Wall 02_b.c
-./a.out
+gcc -Wall p02_b.c || exit 0
+exit 1

@@ -1,1 +1,3 @@
-gcc -Wall 06_a.c
+set -e
+
+gcc -Wall p06_a.c
