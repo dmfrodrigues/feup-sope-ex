@@ -4,22 +4,19 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <string.h>
+#include <mqueue.h>
 
-#define MAXN 256
+#define MAXN 8196
 
-const char fifo_path[] = "/tmp/fifo_chg";
+const char MQ_NAME[] = "/messagequeue";
 
 int main(int argc, char *argv[]){
     if(argc != 2) exit(EXIT_FAILURE);
-    int pdes;
-    do{
-        pdes = open(fifo_path, O_WRONLY);
-        if(pdes == -1) sleep(1);
-    } while(pdes == -1);
+    mqd_t mqd = mq_open(MQ_NAME, O_WRONLY);
+    if(mqd == -1) return EXIT_FAILURE;
 
-    char buf[MAXN];
-    strcat(strcpy(buf, argv[1]), "\n");
-    write(pdes, buf, strlen(buf));
+    mq_send(mqd, argv[1], strlen(argv[1]), 0);
+    mq_close(mqd);
 
     exit(0);
 }

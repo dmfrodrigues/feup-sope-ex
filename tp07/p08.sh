@@ -1,6 +1,8 @@
-gcc -Wall p08_chg.c -o p08_chg
-gcc -Wall p08_trl_chg.c -o p08_trl_chg
-./p08_trl_chg &
+set -e
+
+gcc -Wall p08_chg.c     -lrt -o p08_chg
+gcc -Wall p08_trl_chg.c -lrt -o p08_trl_chg
+timeout 11 ./p08_trl_chg &
 sleep 0.5
 ./p08_chg User1
 sleep 0.6

@@ -6,42 +6,45 @@
 #include <unistd.h>
 #include <time.h>
 #include <stdbool.h>
+#include <errno.h>
+#include <signal.h>
+#include <mqueue.h>
 
-#define MAXN 256
+#define MAXN 8192
 
-const double TMAX = 10;
+const int TMAX = 10;
 
-int readline(int fd, char *str) {
-    int n;
-    do {
-        n = read(fd, str, 1);
-    } while (n > 0 && *str++ != '\n');
-    *(--str) = '\0';
-    return (n > 0);
+const char MQ_NAME[] = "/messagequeue";
+
+volatile sig_atomic_t timeup = false;
+void sigalrm_handler(int n){
+    timeup = true;
 }
 
 int main(){
-    clock_t begin = clock();
+    struct sigaction action;
+    action.sa_handler = sigalrm_handler;
+    sigemptyset(&action.sa_mask);
+    action.sa_flags = 0;
+    sigaction(SIGALRM, &action, NULL);
+    alarm(TMAX);
 
-    mkfifo("/tmp/fifo_chg", 0660);
-    int pdes = open("/tmp/fifo_chg", O_RDONLY | O_NONBLOCK);
+    mqd_t mqd = mq_open(MQ_NAME, O_CREAT|O_RDONLY, 0600, NULL);
+    if(mqd == -1) EXIT_ERROR("Could not create mq");
 
     printf("LISTENING\n");
     int cnt = 0;
-    double Dt = 0.0;
     char buf[MAXN];
-    while(Dt < TMAX){
-        while(Dt < TMAX && readline(pdes, buf) == 0){
-            clock_t now = clock();
-            Dt = (double)(now - begin)/CLOCKS_PER_SEC;
-        }
-        if(Dt >= TMAX) break;
+    while(!timeup){
+        int r = mq_receive(mqd, buf, MAXN, NULL);
+        if(r == -1 && errno == EINTR) break;
+        buf[r] = '\0';
         printf("ARRIVED %s\n", buf); ++cnt;
     }
     printf("DONE LISTENING, REGISTERED %d USERS\n", cnt);
 
-    close(pdes);
-    unlink("/tmp/fifo_chg");
+    mq_close(mqd);
+    unlink(MQ_NAME);
 
     return 0;
 }
