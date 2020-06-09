@@ -12,16 +12,15 @@ int main(){
     pid_t pid = fork();
     if(pid == 0)/** Child */{
         close(fd[1]); FILE *f = fdopen(fd[0], "r");
-        char a[MAXN], b[MAXN];
-        fscanf(f, "%s %s", a, b);
-        printf("%d\n", atoi(a)+atoi(b));
+        int a, b;
+        fscanf(f, "%d %d", &a, &b);
+        printf("%d\n", a+b);
     } else /** Parent */{
-        close(fd[0]);
-        char a[MAXN], b[MAXN];
-        scanf("%s %s", a, b);
-        write(fd[1], a, strlen(a));
-        write(fd[1], " ", 1);
-        write(fd[1], b, strlen(b));
+        close(fd[0]); FILE *f = fdopen(fd[1], "w");
+        int a, b;
+        scanf("%d %d", &a, &b);
+        fprintf(f, "%d %d\n", a, b);
+        fflush(f);
     }
     exit(0);
 }
