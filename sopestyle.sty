@@ -46,6 +46,8 @@
 \newcommand\setrow[1]{\gdef\rowmac{#1}#1\ignorespaces}
 \newcommand\clearrow{\global\let\rowmac\relax}
 \clearrow
+% Tables that can span across multiple pages
+\usepackage{longtable}
 % Tables with diagonal slashes
 %\usepackage{slashbox}
 \usepackage{diagbox}
@@ -55,6 +57,7 @@
 \usepackage{mathtools}
 \usepackage{enumitem}
 \newcommand{\expnumber}[2]{{#1}\mathrm{e}{#2}} % scientific notation
+\usepackage[binary-units=true]{siunitx} %SI units
 % Definitions, theorems, remarks,...
 \usepackage{amsthm}
 \newtheorem{definition}{Definition}[section]
