@@ -27,6 +27,7 @@ int main(int argc, char *argv[]){
         while((r = read(des, buf, MAXN)) != 0){
             write(fd[1], buf, r);
         }
+        waitpid(pid, NULL);
     }
     exit(0);
 }

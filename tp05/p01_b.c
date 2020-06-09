@@ -23,6 +23,7 @@ int main(){
         send_me s;
         scanf("%d %d", &s.a, &s.b);
         write(fd[1], &s, sizeof(send_me));
+        waitpid(pid, NULL);
     }
     exit(0);
 }

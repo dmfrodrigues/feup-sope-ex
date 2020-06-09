@@ -21,6 +21,7 @@ int main(){
         scanf("%d %d", &a, &b);
         fprintf(f, "%d %d\n", a, b);
         fflush(f);
+        waitpid(pid, NULL);
     }
     exit(0);
 }
