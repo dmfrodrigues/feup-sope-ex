@@ -1,7 +1,7 @@
 all:
 
 test:
-	chmod u+x *.sh
+	chmod u+x *.sh */*.sh */*/*.sh
 	./p01.sh
 	./p02.sh
 	./p03.sh
