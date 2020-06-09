@@ -10,8 +10,8 @@ int main(void) {
         fprintf(stderr, "Unable to install SIGINT handler\n");
         exit(1);
     }
-    printf("Sleeping for 30 seconds ...\n");
-    sleep(30);
+    printf("Sleeping for 10 seconds ...\n");
+    sleep(10);
     printf("Waking up ...\n");
     exit(0);
 }

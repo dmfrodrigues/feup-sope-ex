@@ -27,3 +27,11 @@ jobs:
     - uses: actions/checkout@v2
     - name: test tp03
       run: make tp03
+
+  test-tp04:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: test tp04
+      run: make tp04
+

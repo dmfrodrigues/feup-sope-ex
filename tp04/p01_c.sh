@@ -1,4 +1,6 @@
-gcc -Wall p01c.c -o p01c
-./p01_kill.sh 1s -SIGINT ./p01c &
+set -e
+
+gcc -Wall p01_c.c -o p01c
+./kill.sh 1s -SIGINT ./p01c &
 ./p01c
 echo $?

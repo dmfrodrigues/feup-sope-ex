@@ -1,3 +1,5 @@
-gcc -Wall p04a.c -o p04a
-./p04a
+set -e
+
+gcc -Wall p04_a.c -o p04_a
+./p04_a
 echo $?
