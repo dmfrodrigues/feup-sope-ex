@@ -42,3 +42,10 @@ jobs:
     - name: test tp05
       run: make tp05
 
+  test-tp06:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: test tp06
+      run: make tp06
+
