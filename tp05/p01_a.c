@@ -19,7 +19,6 @@ int main(){
         int a, b;
         scanf("%d %d", &a, &b);
         fprintf(f, "%d %d\n", a, b);
-        waitpid(pid, NULL);
     }
     exit(0);
 }
