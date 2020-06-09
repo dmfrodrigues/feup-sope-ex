@@ -1,3 +1,5 @@
+set -e
+
 gcc -Wall p08_chg.c -o p08_chg
 gcc -Wall p08_trl_chg.c -o p08_trl_chg
 ./p08_trl_chg &
