@@ -26,19 +26,19 @@ int main(int argc, char *argv[]) {
 
     pid_t pid = fork();
     if(pid == 0) /** Child */ {
-        if(close(to[1]))                     ERROR("close to[1]"); // Close write end of to
-        if(dup2(to[0], STDIN_FILENO)  == -1) ERROR("dup2 to[0]" ); // Close stdin, make it point to to[0]
-        if(close(fr[0]))                     ERROR("close fr[0]"); // Close read end of fr
-        if(dup2(fr[1], STDOUT_FILENO) == -1) ERROR("dup2 fr[1]" ); // Close stdout, make it point to fr[1]
+        if(close(to[1]))                  ERROR("close to[1]"); // close write end
+        if(dup2(to[0],STDIN_FILENO) ==-1) ERROR("dup2 to[0]" ); // stdin point to to[0]
+        if(close(fr[0]))                  ERROR("close fr[0]"); // close read end
+        if(dup2(fr[1],STDOUT_FILENO)==-1) ERROR("dup2 fr[1]" ); // stdout point to fr[1]
         execlp("bc", "bc", "-qi", NULL);
         perror("Call to exec failed");
         return 1;
     }
 
-    if(close(to[0]))                                          ERROR("close to[0]" );
-    FILE *fd_to_bc = fdopen(to[1], "w"); if(fd_to_bc == NULL) ERROR("fdopen to[1]");
-    if(close(fr[1]))                                          ERROR("close fr[1]" );
-    FILE *fd_fr_bc = fdopen(fr[0], "r"); if(fd_fr_bc == NULL) ERROR("fdopen fr[0]");
+    if(close(to[0]))                                       ERROR("close to[0]" );
+    FILE *fd_to_bc = fdopen(to[1],"w"); if(fd_to_bc==NULL) ERROR("fdopen to[1]");
+    if(close(fr[1]))                                       ERROR("close fr[1]" );
+    FILE *fd_fr_bc = fdopen(fr[0],"r"); if(fd_fr_bc==NULL) ERROR("fdopen fr[0]");
 
     char *line = NULL;
     size_t n = 0;

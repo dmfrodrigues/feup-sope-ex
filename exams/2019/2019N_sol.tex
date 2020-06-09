@@ -63,13 +63,13 @@ It makes no sense to initialize a semaphore with a negative value, since a semap
 
 \subsubsection{Item b}
 Semaphores \texttt{sem1} and \texttt{sem2} keep the number of times \texttt{doWork1} and \texttt{doWork2} may run. Only \texttt{doWork1} may run initially (\texttt{init(sem1, 1)}, \texttt{init(sem2, 0)}); each time a process is about to run its \texttt{doWork} function, it asks if it can still run by waiting for the respective semaphore; once it is done, it has exhausted its possibility to run but informs the other process that it has gained an opportunity to run (\texttt{P1} signals \texttt{sem2} and vice-versa).
-\begin{lstlisting}[language=C++]
+\begin{lstlisting}[language=C]
 /// P0
 init(sem1, 1);
 init(sem2, 0);
 \end{lstlisting}
 \begin{center}
-\begin{minipage}{0.47\textwidth}\begin{lstlisting}[language=C++]
+\begin{minipage}{0.47\textwidth}\begin{lstlisting}[language=C]
 /// P1
 while(goOn){
     wait(sem1);
@@ -77,7 +77,7 @@ while(goOn){
     signal(sem2);
 }
 \end{lstlisting} \end{minipage} \hspace{2em}
-\begin{minipage}{0.47\textwidth} \begin{lstlisting}[language=C++]
+\begin{minipage}{0.47\textwidth} \begin{lstlisting}[language=C]
 /// P2
 while(goOn){
     wait(sem2);
@@ -131,6 +131,6 @@ There were 14 page faults.
 \textbf{(2)} Say an index can be interpreted as a reference. On accessing very large files, even on accessing small portions of the end of a large file, there is a need to dereference all the numerous indexes from index block to index block before finding the block we are looking for, since the lowest indexes require less dereferencing (memory blocks are more directly indexed) than higher indexes.
 
 \subsection{Exercise 5}
-
+\lstinputlisting[language=C,basicstyle=\footnotesize]{2019N_05.c}
 
 }
