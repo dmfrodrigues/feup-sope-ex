@@ -1,7 +1,7 @@
 all:
 
 test:
-	chmod u+x *.sh
+	find . -name "*.sh" -exec chmod u+x {} \;
 	./p01.sh
 	./p02_a.sh
 	./p02_b.sh
