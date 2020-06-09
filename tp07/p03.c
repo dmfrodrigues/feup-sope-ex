@@ -56,7 +56,7 @@ int main(int argc, char *argv[]) {
     pthread_create(&tidv, NULL, verify, NULL);
 
     int total = 0;
-    for (k = 0; k < nthr; k++) {  // espera threads 'fill'
+    for (int k = 0; k < nthr; k++) {  // espera threads 'fill'
         pthread_join(tidf[k], NULL);
         printf("count[%d] = %d\n", k, count[k]);
         total += count[k];

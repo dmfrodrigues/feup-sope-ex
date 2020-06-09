@@ -30,7 +30,7 @@ int main(){
     alarm(TMAX);
 
     mqd_t mqd = mq_open(MQ_NAME, O_CREAT|O_RDONLY, 0600, NULL);
-    if(mqd == -1) EXIT_ERROR("Could not create mq");
+    if(mqd == -1){ perror("Could not create mq"); return EXIT_FAILURE; }
 
     printf("LISTENING\n");
     int cnt = 0;
