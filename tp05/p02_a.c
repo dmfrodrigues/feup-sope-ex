@@ -33,6 +33,7 @@ int main(){
         int sum, sub, mul; char c; float div;
         fscanf(ffr, "%d %d %d %c %f", &sum, &sub, &mul, &c, &div);
         printf("sum=%d, sub=%d, mul=%d, div type=%c %f\n", sum, sub, mul, c, div);
+        waitpid(pid, NULL);
     }
     exit(0);
 }
