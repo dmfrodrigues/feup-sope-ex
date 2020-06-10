@@ -133,4 +133,74 @@ There were 14 page faults.
 \subsection{Exercise 5}
 \lstinputlisting[language=C,basicstyle=\footnotesize]{2019N_05.c}
 
+\subsection{Exercise 6}
+\subsubsection{Item a}
+The FIFO must be created by the reader process, since it acts as the server and provides services to other processes that might know how to communicate with it. Since the FIFO serves the purpose of receiving messages for the reader to process, it only makes sense for the FIFO to exist as long as the reader is running.
+
+\subsubsection{Item b}
+\begin{lstlisting}[language=C]
+mkfifo("/users/tmp/srvfifo", 0000);
+\end{lstlisting}
+
+\subsubsection{Item c}
+Writes of up to \texttt{PIPE\_BUF} bytes are guaranteed to be atomic, so it is impossible for two messages to overlap on writting.\par
+As for reads, there is no atomicity guarantee, so there is a chance reads are interleaved. However, common sense tells there is no chance to read the same message twice, since once a character is read once it is removed from the FIFO and cannot be read again by another process. So in the terms of the problem statement it is impossible to read the same message twice.\par
+If interleaved reading is considered a problem, it can be solved using a named mutex to enforce mutually exclusive reads.\par
+As an alternative, a message queue could be used.
+
+\subsubsection{Item d}
+\textbf{(1)}
+\begin{lstlisting}[language=C]
+/// Reader
+int main(){
+    int mem = shm_open("/tmp/is_fifo_open", O_CREAT|O_RDWR, 0600);
+    ftruncate(mem, sizeof(int));
+    int *is_fifo_open = mmap(NULL, sizeof(int), PROT_READ|PROT_WRITE,
+                             MAP_SHARED, mem, 0);
+    *is_fifo_open = 1;
+    char message[8192];
+    while(readfifo_nonblock(message) == 0){
+        process(message);
+        if(should_close_fifo()){ *is_fifo_open = 0; break; }
+    }
+    while(readfifo_nonblock(message) == 0) process(message);
+    munmap(mem, sizeof(int)); shm_unlink("/tmp/is_fifo_open");
+    return 0;
+}
+\end{lstlisting}
+\begin{lstlisting}[language=C]
+/// Writter
+int main(){
+    int mem = shm_open("/tmp/is_fifo_open", O_RDONLY, 0600);
+    int *is_fifo_open = mmap(NULL, sizeof(int) ,PROT_READ,
+                             MAP_SHARED, mem, 0);
+    char message[8192];
+    while(has_messages_to_write()){
+        create_message(message);
+        if(*is_fifo_open) writefifo(message);
+        else break;
+    }
+    munmap(mem, sizeof(int));
+    return 0;
+}
+\end{lstlisting}
+
+\textbf{(2)}
+\begin{lstlisting}[language=C]
+/// Reader
+int fifo_filedes;
+int openfifo_nonblock(){
+    mkfifo("/tmp/fifo", 0600);
+    fifo_filedes = open("/tmp/fifo", O_RDONLY|O_NONBLOCK, 0600);
+}
+int readfifo_nonblock(char *message){
+    int r = read(fifo_filedes, message, 8192);
+    if(r != 8192) return 1;
+    return 0;
+}
+\end{lstlisting}
+\textbf{(3)}
+A writter could know it cannot write to the FIFO any longer by checking the value of the integer in shared memory \texttt{/tmp/is\_fifo\_open}.
+
+
 }
