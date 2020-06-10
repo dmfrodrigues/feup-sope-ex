@@ -222,16 +222,16 @@ It is made with blocking, since a thread waits by locking \texttt{mutex}, which 
 pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 int numThreads;
 int turn = 0; // The first thread to run must have thrIndex=turn=0
-
+pthread_cond_t *conds = NULL;                               // <========
 
 void * thr(void *arg){
     int thrIndex = *(int*)arg; // The effective indexes are 0,1,2,...
     while (1){
         pthread_mutex_lock(&mutex);
-        if (thrIndex == turn){
-            printf("%d ", thrIndex + 1); // The numbers shown are 1,2,3,...
-            turn = (turn + 1) % numThreads;
-        }
+        while(thrIndex != turn)                             // <========
+            pthread_cond_wait(conds[i], &mutex);            // <========
+        printf("%d ", thrIndex + 1);                        // <========
+        turn = (turn + 1) % numThreads;                     // <========
         pthread_mutex_unlock(&mutex);
     }
     return NULL;
@@ -239,6 +239,8 @@ void * thr(void *arg){
 int main(){
     printf("Number of threads ? "); scanf("%d", &numThreads);
     int *arg = (int *) malloc(sizeof(int)*numThreads);
+    conds = calloc(numThreads, sizeof(pthread_cond_t));     // <========
+    pthread_cond_signal(conds[turn]);                       // <========
     pthread_t *tid = (pthread_t *) malloc(sizeof(pthread_t)*numThreads);
     for (int i = 0; i < numThreads; i++){
         arg[i] = i;
