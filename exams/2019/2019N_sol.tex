@@ -202,5 +202,50 @@ int readfifo_nonblock(char *message){
 \textbf{(3)}
 A writter could know it cannot write to the FIFO any longer by checking the value of the integer in shared memory \texttt{/tmp/is\_fifo\_open}.
 
+\subsection{Exercise 7}
+\subsubsection{Item a}
+The usage of \texttt{arg[]} is justified because each thread must receive its own individual index, where each index is in a different memory address, to make it persistent and allow different indexes for different threads. Otherwise, if we used the cycle variable, not only would it sooner or latter become out-of-scope (after the cycle ends) and cause undefined behaviour in the threads, but even if it was defined in the heap we would be providing all threads the same pointer, meaning all threads would think they had the same \texttt{thrIndex}.
+
+\subsubsection{Item b}
+If \texttt{main()} ended with \texttt{exit(0)}, the whole process would be terminated, including all threads. With \texttt{pthread\_exit(NULL)}, only the main thread is terminated, and the threads that were just launched continue running inside the original process.
+
+\subsubsection{Item c}
+It is made with blocking, since a thread waits by locking \texttt{mutex}, which is a blocking call. However, for each \texttt{numThreads} times a thread acquires the lock, it only performs useful work once. This can in some cases be considered busy-wait, particularly if the number of threads is large.
+
+\subsubsection{Item d}
+\begin{lstlisting}[language=C]
+#include <stdio.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <pthread.h>
+
+pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+int numThreads;
+int turn = 0; // The first thread to run must have thrIndex=turn=0
+
+
+void * thr(void *arg){
+    int thrIndex = *(int*)arg; // The effective indexes are 0,1,2,...
+    while (1){
+        pthread_mutex_lock(&mutex);
+        if (thrIndex == turn){
+            printf("%d ", thrIndex + 1); // The numbers shown are 1,2,3,...
+            turn = (turn + 1) % numThreads;
+        }
+        pthread_mutex_unlock(&mutex);
+    }
+    return NULL;
+}
+int main(){
+    printf("Number of threads ? "); scanf("%d", &numThreads);
+    int *arg = (int *) malloc(sizeof(int)*numThreads);
+    pthread_t *tid = (pthread_t *) malloc(sizeof(pthread_t)*numThreads);
+    for (int i = 0; i < numThreads; i++){
+        arg[i] = i;
+        pthread_create(&tid[i], NULL, thr, (void*)&arg[i]);
+    }
+    pthread_exit(NULL);
+}
+\end{lstlisting}
 
 }
