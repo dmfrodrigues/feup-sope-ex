@@ -20,7 +20,7 @@ int total_consumed = 0;
 void consume(int item){
     struct timespec req = {
         .tv_sec = 0,
-        .tv_nsec = 2000000
+        .tv_nsec = 20000000
     };
     nanosleep(&req, NULL);
     total_consumed += item;

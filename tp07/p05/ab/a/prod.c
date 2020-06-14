@@ -19,7 +19,7 @@ int total_produced = 0;
 int produce(int i){
     struct timespec req = {
         .tv_sec = 0,
-        .tv_nsec = 1000000
+        .tv_nsec = 10000000
     };
     nanosleep(&req, NULL);
     int item = i+1;

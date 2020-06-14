@@ -21,7 +21,7 @@ int total_produced = 0;
 int produce(int i){
     struct timespec req = {
         .tv_sec = 0,
-        .tv_nsec = 1000000
+        .tv_nsec = 10000000
     };
     nanosleep(&req, NULL);
     int item = i+1;
@@ -33,7 +33,7 @@ int total_consumed = 0;
 void consume(int item){
     struct timespec req = {
         .tv_sec = 0,
-        .tv_nsec = 2000000
+        .tv_nsec = 20000000
     };
     nanosleep(&req, NULL);
     total_consumed += item;
