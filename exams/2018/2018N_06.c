@@ -22,5 +22,5 @@ int process_dir(char *dirname) {
         }
         // ‐‐‐ FIM DO BLOCO B ‐‐‐
     }
-    return0;
+    return 0;
 }
