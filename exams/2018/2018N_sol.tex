@@ -1,0 +1,15 @@
+\setcounter{chapter}{17}
+\chapter{Exam 2017/18}
+{
+\renewcommand{\thesubsection}{\thesection\alph{subsection}}
+\section{Exercise 1}
+\begin{itemize}
+    \item \textbf{Multiprogramming} is an operating system property which means it supports having several programs' code and data loaded in memory simultaneously.
+    \item \textbf{Direct memory access} is an input/output technique where certain hardware subsystems (typically peripherals) can directly read from or write to main memory without CPU intervention. This means the CPU only needs to act in certain instants (to start and finish transactions), since the rest of the hard work (reads and writes to main memory) is done by the hardware subsystems, which have special access to particular parts of the main memory.
+\end{itemize}
+Multiprogramming and DMA are related since DMA is a very good way to free CPU time that can be used for improved multiprocessing. Also, multiprogramming and DMA allow the computer to simultaneously communicate with several hardware subsystems, since:
+\begin{enumerate}
+    \item DMA guarantees there can be several hardware subsystems directly writting to main memory at the same time;
+    \item multiprogramming guarantees each hardware subsystem has direct memory access to a certain region, and all of them have simultaneous access so even if the system is single-process perypherals can fill in their dedicated memory regions anytime, and the CPU can fetch it from those special regions when it is ready to process it.
+\end{enumerate}
+}
