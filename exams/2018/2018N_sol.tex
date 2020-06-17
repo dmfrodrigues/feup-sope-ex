@@ -141,4 +141,34 @@ Files can be stored in non-contiguous memory blocks, so to make sense of them Li
 
 Directories are special files that map names of files to inodes, so several file names can be mapped to the same \emph{actual file}/inode (thus making them all hard links).
 
+\section{Exercise 6}
+\subsection{Item a}
+\lstinputlisting[language=C,firstline=56,lastline=68]{2018N_06.c}
+
+\subsection{Item b}
+\lstinputlisting[language=C,firstline=20,lastline=40]{2018N_06.c}
+
+\subsection{Item c}
+\lstinputlisting[language=C,firstline=41,lastline=53]{2018N_06.c}
+
+\textbf{File:} \texttt{2018N\_06.c}
+\lstinputlisting[language=C]{2018N_06.c}
+\textbf{File:} \texttt{2018N\_06.sh}
+\lstinputlisting[language=bash]{2018N_06.sh}
+\textbf{Directory tree:}
+
+\dirtree{%
+.1 2018\_06\_testdir.
+    .2 src.
+        .3 hello.
+            .4 imonefile.txt.
+        .3 hey.
+            .4 another.
+                .5 anotherfile.txt.
+                .5 notafil.txt.
+            .4 afile.txt.
+    .2 dst.
+        .3 afile.txt.
+        .3 anotherfile.txt.
+        .3 imonefile.txt.
 }
