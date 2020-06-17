@@ -3,6 +3,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/types.h>
+#include <sys/stat.h>
+#include <stdio.h>
+#include <unistd.h>
 
 char *filename = NULL;
 char *destination_dir = NULL;
@@ -10,16 +13,21 @@ char *destination_dir = NULL;
 int process_dir(char *dirname) {
     DIR *dir;
     struct dirent *entry;
-    // struct stat statbuf;
+    struct stat statbuf;
     if(!(dir = opendir(dirname))) return 1;
     while((entry = readdir(dir)) != NULL) {
         char path[1024];
         // ‐‐‐ BLOCO A ‐‐‐
-        ...;
-        if(...) {  //se 'entry' for um diretório
+        sprintf(path, "%s/%s", dirname, entry->d_name);
+        if(stat(path, &statbuf)) return 1;
+        if(S_ISDIR(statbuf.st_mode)) {  //se 'entry' for um diretório
             if(strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0)
                 continue;
-            ...;  //cria um processo que invoca process_dir()
+            pid_t pid = fork();
+            if(pid == 0)/** Child */{
+                process_dir(path);
+                exit(0);
+            } else if(pid < 0) return 1;
         }
         // ‐‐‐ FIM DO BLOCO A ‐‐‐
         // ‐‐‐ BLOCO B ‐‐‐
