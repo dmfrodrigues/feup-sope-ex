@@ -4,7 +4,7 @@ int process_dir(char *dirname) {
     // struct stat statbuf;
     if(!(dir = opendir(dirname))) return 1;
     while((entry = readdir(dir)) != NULL) {
-        charpath[1024];
+        char path[1024];
         // ‐‐‐ BLOCO A ‐‐‐
         ...;
         if(...) {  //se 'entry' for um diretório
