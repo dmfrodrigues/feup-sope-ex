@@ -21,6 +21,12 @@ int process_dir(char *dirname) {
         sprintf(path, "%s/%s", dirname, entry->d_name);
         if(stat(path, &statbuf)) return 1;
         if(S_ISDIR(statbuf.st_mode)) {  //se 'entry' for um diretório
+            /**
+             * This instruction is fundamental since it rejects the 'pseudofolders'
+             * `.` (current folder) and `..` (parent folder). Otherwise,
+             * `process_dir` would be called over and over again for the first
+             * folder and its successive parents.
+             */
             if(strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0)
                 continue;
             pid_t pid = fork();
