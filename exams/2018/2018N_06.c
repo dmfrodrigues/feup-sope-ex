@@ -37,10 +37,13 @@ int process_dir(char *dirname) {
         }
         // ‐‐‐ FIM DO BLOCO A ‐‐‐
         // ‐‐‐ BLOCO B ‐‐‐
-        else if(...) {  //se 'entry' for um ficheiro regular
-            ...;
+        else if(S_ISREG(statbuf.st_mode)) {  //se 'entry' for um ficheiro regular
             if(strstr(entry->d_name, filename) != NULL) {  //se o nome do ficheiro contiver filename
-                ...;                                        //cria um processo que invoca o utilitário 'cp'
+                //cria um processo que invoca o utilitário 'cp'
+                pid_t pid = fork();
+                if(pid == 0)/** Child */{
+                    if(execlp("cp", "cp", path, destination_dir, NULL)) return 1;
+                } else if(pid < 0) return 1;                                       
             }
         }
         // ‐‐‐ FIM DO BLOCO B ‐‐‐
