@@ -29,12 +29,15 @@ void* baby(void *arg){
     int id = *(int*)arg;
     int n_bits = 0;
     while(true){
+        pthread_mutex_lock(&food_bits_mutex);
         if(food_bits <= 0){
             fprintf(stderr, "I am baby %d, I have already eaten %d bits of food and I am still hungry!\n", id, n_bits);
-            while(food_bits <= 0){}
+            while(food_bits <= 0)
+                pthread_cond_wait(&cond, &food_bits_mutex);
         }
-        food_bits--;
+        food_bits--; pthread_cond_signal(&cond);
         n_bits++;
+        pthread_mutex_unlock(&food_bits_mutex);
     }
     return NULL;
 }
