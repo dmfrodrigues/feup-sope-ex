@@ -2,14 +2,14 @@
 \chapter{Exam 2016/17}
 {
 \renewcommand{\thesubsection}{\thesection\alph{subsection}}
-\section{Exercise 1}
+\section{Question 1}
 \begin{tabular}{p{29mm} | p{122mm}}
     DMA & Allows some hardware subsystems (usually peripherals) to directly access certain principal memory regions. This means the CPU is only required to start or end transactions, and the actual transactions can be performed by the subsystems, freeing CPU time. \\ \hline
     Test\&Set instruction & Hardware instruction that can be used to implement mutual exclusion and mutexes. Sets variable to 1 and returns the previous value atomically, so a critical section can be implemented by first calling Test\&Set for the \emph{mutex} until it returns 0, execute the section and then set the \emph{mutex} to 0. \\ \hline
     Valid/invalid page bit & Essential part of a virtual memory implementation. There is a table that has a valid/invalid bit for each page, which is set to 1 if it is currently loaded in principal memory, so this bit allows to know if a page is loaded in memory (i.e., can access it) or not (i.e., needs to load that page and only then can it be accessed).
 \end{tabular}
 
-\section{Exercise 2}
+\section{Question 2}
 \begin{lstlisting}[language=C]
 // Global
 init(ready1, 0);
@@ -45,5 +45,10 @@ signal(ready2);
 // C
     \end{lstlisting}
 \end{tabular}
+
+\subsection{Item b}
+This solution does not cause deadlocks, since the \emph{hold and wait} condition is false. This is because none of the three processes tries to lock more resources while holding the lock for other resources. This is obvious because, immediately after waiting for a semaphore, a process immediately signals that same semaphore in the following statement. This is allowed because the problem statement mentions process 1 must wait for 2 and 3 to reach B and C respecively but is not required to hold the locks during execution of block A, so it basically only needs to be notified that processes 2 and 3 reached B and C. Initially semaphores are set to 0, so when process 2 reaches B it signals \texttt{ready2}. Once process 1 waits for \texttt{ready2}, when that call returns process 1 is considered to have been successfully notified that process 2 has reached block B, so it does not have to keep \texttt{ready2} locked.
+
+\section{Question 3}
 
 }

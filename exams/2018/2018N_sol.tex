@@ -2,7 +2,7 @@
 \chapter{Exam 2017/18}
 {
 \renewcommand{\thesubsection}{\thesection\alph{subsection}}
-\section{Exercise 1}
+\section{Question 1}
 \begin{itemize}
     \item \textbf{Multiprogramming} is an operating system property which means it supports having several programs' code and data loaded in memory simultaneously.
     \item \textbf{Direct memory access} is an input/output technique where certain hardware subsystems (typically peripherals) can directly read from or write to main memory without CPU intervention. This means the CPU only needs to act in certain instants (to start and finish transactions), since the rest of the hard work (reads and writes to main memory) is done by the hardware subsystems, which have special access to particular parts of the main memory.
@@ -13,7 +13,7 @@ Multiprogramming and DMA are related since DMA is a very good way to free CPU ti
     \item multiprogramming guarantees each hardware subsystem has direct memory access to a certain region, and all of them have simultaneous access so even if the system is single-process perypherals can fill in their dedicated memory regions anytime, and the CPU can fetch it from those special regions when it is ready to process it.
 \end{enumerate}
 
-\section{Exercise 2}
+\section{Question 2}
 \subsection{Item a}
 The shared variable \texttt{pdata} should be declared as global, since \texttt{put} and \texttt{get} have no arguments referring to \texttt{pdata}, so they must access it via a global variable. \texttt{pdata} may be a pointer, which requires allocating heap memory with \texttt{malloc} in the main thread, before creating T1 and T2; it can otherwise be a global variable, in which case it has the advantages that it will be stored in the stack and will be in scope as long as the process is running, and it will also automatically fall out of scope (it will be deallocated) as the process ends. \par
 \begin{lstlisting}[language=C]
@@ -76,7 +76,7 @@ To stop deadlocks from happening, a programmer can either prevent or avoid them.
 \end{itemize}
 Usually the easiest way is to prevent deadlocks by carefully implementing the program so as to make one of the conditions false. One way to do this is to, for example, make sure the 2nd condition does not hold, by locking all resources before executing and releasing all resources if one of the demanded resources is already locked.
 
-\section{Exercise 3}
+\section{Question 3}
 \begin{center}
 \begin{tabular}{p{25mm} | p{60mm} | p{60mm}}
     \textbf{Algorithm} & \textbf{Advantages} & \textbf{Disadvantages} \\ \hline
@@ -101,7 +101,7 @@ The SJB algorithm penalizes longer processes, typically by an excessive amount, 
 
 The RR algorithm penalizes I/O-bound processes in favour of CPU-bound processes, since they often block while waiting for I/O so they end up not using their quantum, being sent to the end of the queue they are forced to wait for quite a long time although they only used a small fraction of the quantum they were assigned.
 
-\section{Exercise 4}
+\section{Question 4}
 \subsection{Item a}
 Overlaying can be used for cases where program code is larger than available physical memory, but since it is not generic enough to apply for data as well I will be mentioning another technique.
 
@@ -136,12 +136,12 @@ for(int j = 0; j < N; ++j)
 
 In sum, the principle of locality of reference (on which paging algorithms depend to have the best possible performance) is best kept if elements are consecutively stored in memory in an order that most resembles the order by which they will be accessed; an array has consecutive elements in memory and a list does not, and a matrix being accessed through option 2 does not follow the same order elements are stored in memory (which are contiguous with other elements by just varying the second dimension).
 
-\section{Exercise 5}
+\section{Question 5}
 Files can be stored in non-contiguous memory blocks, so to make sense of them Linux uses \emph{inodes}, which are entries in the special table called \emph{active inodes table}, where each inode registers some file metadata along with the memory blocks the file was saved to (and their order), so an inode has the job of being the \emph{actual file} and making sense of the blocks in memory.
 
 Directories are special files that map names of files to inodes, so several file names can be mapped to the same \emph{actual file}/inode (thus making them all hard links).
 
-\section{Exercise 6}
+\section{Question 6}
 \subsection{Item a}
 \lstinputlisting[language=C,firstline=56,lastline=68]{2018N_06.c}
 
@@ -173,7 +173,7 @@ Directories are special files that map names of files to inodes, so several file
         .3 imonefile.txt.
 }
 
-\section{Exercise 7}
+\section{Question 7}
 \subsection{Item a}
 \begin{center}
     \includegraphics[scale=0.5]{2018N_07_a}
@@ -189,7 +189,7 @@ Directories are special files that map names of files to inodes, so several file
 \subsection{Item c}
 POSIX requires writes of size less than \texttt{PIPE\_BUF} must be atomic, where \texttt{PIPE\_BUF} must be at least $\SI{512}{\byte}$, but in Linux \texttt{PIPE\_BUF} is $\SI{4096}{\byte}$. If the \texttt{data} field had a size of $\SI{100000}{\byte}$, then the struct write will require the writting of more than \texttt{PIPE\_BUF} bytes, meaning the operation is not guaranteed to be atomic. Atomicity guarantees there will not be interleaved data (data from different write instructions ending up mixed together because there is a chance one of the writes was blocked to change context). The fact there is no atomicity guarantee for this case means there can be an interleaving problem, which breaks message integrity as read operations need to make assumptions (first the number of bytes is read, and then that number of bytes is expected to be an incorrupted message).
 
-\section{Exercise 8}
+\section{Question 8}
 \subsection{Item a}
 \lstinputlisting[language=C,firstline=38,lastline=47]{2018N_08_a.c}
 
