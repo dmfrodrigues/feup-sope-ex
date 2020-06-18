@@ -1,4 +1,5 @@
 #include <pthread.h>
+#include <stdlib.h>
 
 #define NB 10
 
@@ -18,13 +19,17 @@ void* bird(void* arg) {
     return NULL;
 }
 
+void* baby(void *arg){
+    return NULL;
+}
+
 int main() {
     pthread_t tid_bird, tid_baby[NB];
-    ...;
     pthread_create(&tid_bird, NULL, bird, NULL);
-    for(...) {
-        ...;
-        pthread_create(..., ..., baby, ...);
+    for(int i = 0; i < NB; ++i) {
+        int *i_new = malloc(sizeof(int));
+        *i_new = i;
+        pthread_create(&tid_baby[i], NULL, baby, i_new);
     }
     return 0;
 }
