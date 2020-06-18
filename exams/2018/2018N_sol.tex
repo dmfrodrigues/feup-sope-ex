@@ -172,3 +172,20 @@ Directories are special files that map names of files to inodes, so several file
         .3 anotherfile.txt.
         .3 imonefile.txt.
 }
+
+\section{Exercise 7}
+\subsection{Item a}
+\begin{center}
+    \includegraphics[scale=0.5]{2018N_07_a}
+\end{center}
+\lstinputlisting[language=C,firstline=10,lastline=30]{2018N_07_a.c}
+
+\subsection{Item b}
+\begin{center}
+    \includegraphics[scale=0.5]{2018N_07_b}
+\end{center}
+\lstinputlisting[language=C,firstline=23,lastline=59]{2018N_07_b.c}
+
+\subsection{Item c}
+POSIX requires writes of size less than \texttt{PIPE\_BUF} must be atomic, where \texttt{PIPE\_BUF} must be at least $\SI{512}{\byte}$, but in Linux \texttt{PIPE\_BUF} is $\SI{4096}{\byte}$. If the \texttt{data} field had a size of $\SI{100000}{\byte}$, then the struct write will require the writting of more than \texttt{PIPE\_BUF} bytes, meaning the operation is not guaranteed to be atomic. Atomicity guarantees there will not be interleaved data (data from different write instructions ending up mixed together because there is a chance one of the writes was blocked to change context). The fact there is no atomicity guarantee for this case means there can be an interleaving problem, which breaks message integrity as read operations need to make assumptions (first the number of bytes is read, and then that number of bytes is expected to be an incorrupted message).
+}
