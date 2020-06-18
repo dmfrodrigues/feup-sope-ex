@@ -26,4 +26,5 @@ exams/**/*.pdf
 a.out
 tp03/text.out
 test
+exams/2019/out.txt
 exams/2018/2018N_06_testdir/dst
