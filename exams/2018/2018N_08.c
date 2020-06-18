@@ -1,5 +1,7 @@
 #include <pthread.h>
 #include <stdlib.h>
+#include <stdbool.h>
+#include <stdio.h>
 
 #define NB 10
 
@@ -20,6 +22,16 @@ void* bird(void* arg) {
 }
 
 void* baby(void *arg){
+    int id = *(int*)arg;
+    int n_bits = 0;
+    while(true){
+        if(food_bits <= 0){
+            fprintf(stderr, "I am baby %d, I have already eaten %d bits of food and I am still hungry!\n", id, n_bits);
+            while(food_bits <= 0){}
+        }
+        food_bits--;
+        n_bits++;
+    }
     return NULL;
 }
 
