@@ -19,7 +19,7 @@ void* bird(void* arg) {
         while(food_bits != 0)
             pthread_cond_wait(&cond, &food_bits_mutex);
         get_food();
-        food_bits = F;
+        food_bits = F; pthread_cond_signal(&cond);
         pthread_mutex_unlock(&food_bits_mutex);
     }
     return NULL;
