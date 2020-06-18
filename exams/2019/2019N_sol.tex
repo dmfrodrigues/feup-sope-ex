@@ -139,7 +139,7 @@ The FIFO must be created by the reader process, since it acts as the server and 
 
 \subsection{Item b}
 \begin{lstlisting}[language=C]
-mkfifo("/users/tmp/srvfifo", 0000);
+mkfifo("/users/tmp/srvfifo", 0660);
 \end{lstlisting}
 
 \subsection{Item c}
