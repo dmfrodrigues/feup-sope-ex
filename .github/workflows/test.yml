@@ -56,3 +56,11 @@ jobs:
     - name: test tp07
       run: timeout 900s make tp07
 
+  test-exams:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: test exams
+      run: timeout 900s make exams
+
+
