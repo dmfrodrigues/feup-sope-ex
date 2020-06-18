@@ -8,11 +8,12 @@
 const int F = 10;
 void get_food(void){}
 
+int finish = 0;
+
 int food_bits = 0;
 pthread_mutex_t food_bits_mutex = PTHREAD_MUTEX_INITIALIZER;
 pthread_cond_t cond = PTHREAD_COND_INITIALIZER;
 
-int finish = 0;
 void* bird(void* arg) {
     while(finish == 0) {
         pthread_mutex_lock(&food_bits_mutex);
@@ -31,7 +32,9 @@ void* baby(void *arg){
     while(true){
         pthread_mutex_lock(&food_bits_mutex);
         if(food_bits <= 0){
-            fprintf(stderr, "I am baby %d, I have already eaten %d bits of food and I am still hungry!\n", id, n_bits);
+            fprintf(stderr, "I am baby %d, I have already eaten "
+                            "%d bits of food and "
+                            "I am still hungry!\n", id, n_bits);
             while(food_bits <= 0)
                 pthread_cond_wait(&cond, &food_bits_mutex);
         }
