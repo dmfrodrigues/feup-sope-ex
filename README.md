@@ -4,3 +4,28 @@
 
 ![Test](https://github.com/dmfrodrigues/feup-sope-ex/workflows/Test/badge.svg)
 ![Compile documents](https://github.com/dmfrodrigues/feup-sope-ex/workflows/Compile%20documents/badge.svg)
+
+- **Institution:** [FEUP](https://sigarra.up.pt/feup/en/web_page.Inicial)
+- **Course:** [SOPE](https://sigarra.up.pt/feup/en/ucurr_geral.ficha_uc_view?pv_ocorrencia_id=436440) (Operating Systems)
+- **Subjects:** Structure and workings of an operating system, using a real operating system API
+- **Environment:** Linux
+- **Tools:** C, Linux API
+- **Course grade:** ?/20
+
+## Contents
+
+- Theoretical-practical lessons
+- [Exam solutions](exams)
+
+## Documents
+
+Documents are compiled by Github Actions, to see them go to [`Actions`](https://github.com/dmfrodrigues/feup-sope-ex/actions) > `Workflows` > [`Compile documents`](https://github.com/dmfrodrigues/feup-sope-ex/actions?query=workflow%3A%22Compile+documents%22), go to the most recent action and check `This run > Artifacts`.
+
+## License
+
+© 2020 Diogo Rodrigues
+
+All files are licensed under [GNU General Public License v3](LICENSE) by **© 2020 Diogo Rodrigues**, to the exception of:
+- `.pdf`/`.jpg` files, which were authored by the lecturers
+
+The files not authored by me are presented as a fundamental complement to the presented solutions, and are made available under *fair use for education*.
