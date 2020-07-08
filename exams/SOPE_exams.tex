@@ -1,23 +1,20 @@
-\documentclass[a4paper]{book}
-\usepackage[title={SOPE - solved exams},
-            author={Diogo Rodrigues},
-            email={dmfrodrigues2000@gmail.com}]{sopestyle}
+\documentclass{sope}
 \usepackage{import}
+\usepackage{standalone}
 % Metadata
-\title{SOPE - solved exams}
+\title{SOPE -- solved exams}
 \author{Diogo Miguel Ferreira Rodrigues \\ \href{mailto:dmfrodrigues2000@gmail.com}{dmfrodrigues2000@gmail.com}}
 \date{2019/2020, 2nd semester}
 % Document
 \begin{document}
-\begingroup
-	\maketitle
-	\let\clearpage\relax
-	\setcounter{tocdepth}{1}
-	\tableofcontents
-\endgroup
-\import{./2019N/}{2019N_sol.tex}
-\import{./2018N/}{2018N_sol.tex}
-\import{./2017N/}{2017N_sol.tex}
-\import{./2015N/}{2015N_sol.tex}
+\frontmatter
+\maketitle
+\setcounter{tocdepth}{2}
+\tableofcontents
+\mainmatter
+\import{./2019N/}{SOPE_2019N_sol.tex}
+\import{./2018N/}{SOPE_2018N_sol.tex}
+\import{./2017N/}{SOPE_2017N_sol.tex}
+\import{./2015N/}{SOPE_2015N_sol.tex}
 
 \end{document}
