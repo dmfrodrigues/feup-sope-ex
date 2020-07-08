@@ -1,5 +1,5 @@
 all:
 
 test:
-	make -C 2019 test
-	make -C 2018 test
+	make -C 2019N test
+	make -C 2018N test
