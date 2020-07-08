@@ -22,7 +22,7 @@
 *.dvi
 *.lof
 exams/**/*.pdf
-!exams/**/[0-9][0-9][0-9][0-9][NE].pdf
+!exams/**/[0-9][0-9][0-9][0-9][NR].pdf
 a.out
 tp03/text.out
 test
