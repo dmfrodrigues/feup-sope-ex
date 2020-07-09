@@ -22,10 +22,10 @@
 \RequirePackage{listings}
 \renewcommand{\lstlistingname}{File}
 \lstset{
+    basicstyle=\ttfamily,
     frame=tb, % draw frame at top and bottom of the code
     tabsize=4, % tab space width
     numbers=left, % display line numbers on the left
-	showstringspaces=false, % don't mark spaces in strings    
     commentstyle=\color{green}, % comment color
     keywordstyle=\color{blue}, % keyword color
     stringstyle=\color{red} % string color
