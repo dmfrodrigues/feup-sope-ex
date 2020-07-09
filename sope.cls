@@ -62,6 +62,21 @@
 \def\author#1{\gdef\@author{#1}\gdef\@@author{#1}}
 \let\@@title\@empty
 \let\@@author\@empty
+% Copyright page
+\def\secondpage{
+    \clearpage\null\vfill
+    \thispagestyle{empty}
+    \begin{minipage}[b]{0.9\textwidth}
+        \footnotesize\raggedright
+        \setlength{\parskip}{0.5\baselineskip}
+        Copyright \copyright 2020--\the\year\ Diogo Rodrigues\par
+        Permission is granted to copy and distribute this document under the terms of the
+        \href{https://creativecommons.org/licenses/by-nc-nd/4.0/}{Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International}
+        public license.
+    \end{minipage}
+    \vspace*{2\baselineskip}
+}
+
 % Headers and footers
 \RequirePackage{fancyhdr}
 \pagestyle{fancy}
