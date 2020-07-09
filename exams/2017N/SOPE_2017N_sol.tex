@@ -154,7 +154,7 @@ I would use two named FIFOs for each pair of communicating threads. I would addi
 
 \questionitem{Item b}
 To communicate, \texttt{Process1} executes
-\begin{lstlisting}[language=C,basicstyle=\small]
+\begin{lstlisting}[language=C,basicstyle=\ttfamily\small]
 pid_t pid = getpid();
 pthread_t tid = pthread_self();
 // Create FIFOs
@@ -173,12 +173,12 @@ Now the current thread can communicate with process 2 using \texttt{out\_fd} and
 
 \questionitem{Item c}
 The queue is created by \texttt{Process2} using
-\begin{lstlisting}[language=C,basicstyle=\small]
+\begin{lstlisting}[language=C,basicstyle=\ttfamily\small]
 mqd_t mq = mq_open("/tmp/mq", O_CREAT | O_RDONLY, 0777, NULL);
 if(mq == 1) exit(1);
 \end{lstlisting}
 \texttt{Process1} announces it wants to communicate by sending:
-\begin{lstlisting}[language=C,basicstyle=\small]
+\begin{lstlisting}[language=C,basicstyle=\ttfamily\small]
 typedef struct {
     pid_t pid,
     pthread_t tid;
@@ -198,7 +198,7 @@ if(mq_close(mq))                               {perror("mq_close mq");exit(1);}
 If a call to \texttt{open} a FIFO with flags \texttt{O\_WRONLY|O\_NONBLOCK} fails with \texttt{errno=ENXIO}, that means there is no process with the FIFO open for reading, so a thread can close its write-only FIFO and try to open it again to check if the read end is still open (i.e., if the other thread is still alive).
 
 In the case of a thread in \texttt{Process1}, it would evaluate:
-\begin{lstlisting}[language=C,basicstyle=\small]
+\begin{lstlisting}[language=C,basicstyle=\ttfamily\small]
 if(close(out_fd))   {perror("close out_fd");exit(1);}
 int out_fd = open(out_name, O_WRONLY|O_NONBLOCK);
 if(out_fd < 0){
@@ -209,7 +209,7 @@ if(out_fd < 0){
 \end{lstlisting}
 
 \questionitem{Item e}
-\begin{lstlisting}[language=C,basicstyle=\small]
+\begin{lstlisting}[language=C,basicstyle=\ttfamily\small]
 if(close(out_fd))  { perror("close out"  ); exit(1); }
 if(close(in_fd ))  { perror("close in"   ); exit(1); }
 if(unlink(out_name){ perror("unlink out" ); exit(1); }
@@ -220,7 +220,8 @@ if(mq_close(mq))   { perror("mq_close mq"); exit(1); }
 
 \question{Question 8}
 \questionitem{Item a}
-\begin{lstlisting}[language=C,basicstyle=\small]
+\newpage
+\begin{lstlisting}[language=C,basicstyle=\ttfamily\small]
 // NRECEIVERS: global constant indicating the number of receivers; has value 10
 pthread_t receivers_tid[NRECEIVERS], caller_tid;
 for(int i = 0; i < NRECEIVERS; ++i){
@@ -237,7 +238,7 @@ To make sure the number of received calls is correctly counted, I would use a mu
 To inform \texttt{caller} that he has to make a call, we could declare a global variable \texttt{winnerNumber} and a semaphore starting with value 0, and on receiving a winner call a receiver would, on line 9, set \texttt{winnerNumber} to the winner phone number and also signal that semaphore. The \texttt{caller} would be on a cycle, calling \texttt{wait} on that semaphore. Once it unblocks the caller knows \texttt{winnerNumber} contains a number that he should call.
 
 \questionitem{Item c}
-\begin{lstlisting}[language=C,basicstyle=\small]
+\begin{lstlisting}[language=C,basicstyle=\ttfamily\small]
 // At the beginning, as Global
 pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 int winnerNumber;
@@ -251,7 +252,7 @@ int main(){
 \end{lstlisting}
 
 \questionitem{Item d}
-\begin{lstlisting}[language=C,basicstyle=\small]
+\begin{lstlisting}[language=C,basicstyle=\ttfamily\small]
 // MAX_NUM_PHONE_CALLS: constante global que indica o no max. total de chamadas
 while (true) {
     pthread_mutex_lock(&mutex);

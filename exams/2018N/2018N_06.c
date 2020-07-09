@@ -54,7 +54,6 @@ int process_dir(char *dirname) {
     }
     return 0;
 }
-
 // Usage: find_and_copy <dir_to_search> <filename> <destination_dir>
 // Example: ./find_and_copy 2018N_06_testdir/src file 2018N_06_testdir/dst
 int main(int argc, char *argv[]) {

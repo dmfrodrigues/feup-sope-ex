@@ -149,13 +149,15 @@ Files can be stored in non-contiguous memory blocks, so to make sense of them Li
 
 Directories are special files that map names of files to inodes, so several file names can be mapped to the same \emph{actual file}/inode (thus making them all hard links).
 
+\newpage
 \question{Question 6}
 \questionitem{Item a}
-\lstinputlisting[language=C,firstline=60,lastline=72]{2018N_06.c}
+\lstinputlisting[language=C,firstline=59,lastline=71]{2018N_06.c}
 
 \questionitem{Item b}
 \lstinputlisting[language=C,firstline=20,lastline=40]{2018N_06.c}
 
+\newpage
 \questionitem{Item c}
 \lstinputlisting[language=C,firstline=41,lastline=53]{2018N_06.c}
 
@@ -208,7 +210,8 @@ POSIX requires writes of size less than \texttt{PIPE\_BUF} must be atomic, where
 \lstinputlisting[language=C,firstline=13,lastline=27]{2018N_08_c.c}
 For \texttt{bird} to work correctly, \texttt{baby} will have to use the mutex and the conditional variable that \texttt{bird} uses, otherwise there is not synchronization. Namely, \texttt{baby} will have to lock \texttt{food\_bits\_mutex} to write to it, and will have to signal \texttt{cond} when it eats a bit (thus decrementing \texttt{food\_bits}). It can also use the conditional variable \texttt{cond} to avoid a busy-wait when waiting for \texttt{bird} to get more food.
 
-Althouth the problem statement requires to explain only by words, we also present a sample solution for \texttt{baby}:
+\newpage
+Although the problem statement requires to explain only by words, we also present a sample solution for \texttt{baby}:
 \lstinputlisting[language=C,firstline=29,lastline=46]{2018N_08_c.c}
 
 \questionitem{Item d}

@@ -26,7 +26,7 @@ int main(){
     printf("Number of threads ? "); scanf("%d", &numThreads);
     int *arg = (int *) malloc(sizeof(int)*numThreads);
     conds = calloc(numThreads, sizeof(pthread_cond_t));     // <========
-    pthread_cond_signal(&conds[turn]);                       // <========
+    pthread_cond_signal(&conds[turn]);                      // <========
     pthread_t *tid = (pthread_t *) malloc(sizeof(pthread_t)*numThreads);
     for (int i = 0; i < numThreads; i++){
         arg[i] = i;
