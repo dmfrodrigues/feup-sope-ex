@@ -1,0 +1,226 @@
+% (C) 2020 Diogo Rodrigues
+% Licensed under Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International (CC-BY-NC-ND 4.0)
+
+\documentclass{sope}
+\title{SOPE -- Exam 2019/20}
+\author{Diogo Miguel Ferreira Rodrigues \\ \href{mailto:dmfrodrigues2000@gmail.com}{dmfrodrigues2000@gmail.com}}
+\begin{document}
+\renewcommand{\thesubsection}{\thesection\alph{subsection}}
+\setcounter{chapter}{19}
+\exam{Exam 2019/20}
+\question{Question 1}
+\begin{center}    
+    \begin{longtable}{c | c p{132mm}}
+        \textbf{(a)} & True & \texttt{pthread\_cond\_wait(pthread\_cond\_t *cond, pthread\_mutex\_t *mutex)} has as a \textbf{mutex} as a fundamental argument. This allows to atomically lock on the \textbf{condition variable} and unlock the mutex so the thread that will signal that condition can work with minimal disruption. \\
+        \textbf{(b)} & True & Technically a \textbf{critical section} is not a section that can only have one thread executing it, rather it is a section where shared variables are accessed so there cannot be two threads of the \textbf{same process} (or otherwise two threads in a critical section that accesses the \textbf{same memory}) executing it. \\
+        \textbf{(c)} & True & \textbf{Process ageing} has the goal of avoiding some processes to starve. \\
+        \textbf{(d)} & False & It does not even print in decimal system, since \texttt{write} uses binary mode. \\
+        \textbf{(e)} & False & A \textbf{critical section} is one that must not be simultaneously executed by two threads. If it is only a critical section then it may be interrupted, but no thread can enter it as long as another thread is in it. \\
+        \textbf{(f)} & True & This is typical, for instance, when two different programs refer to the same shared memory. Each process has its own \textbf{logical-physical address translation table} so a virtual address only makes sense to the process that created it, thus different virtual addresses may point to the same physical memory. \\
+        \textbf{(g)} & False & \textbf{On \texttt{fork}'ing all parent memory is ``duplicated''} for the child so the parent and child virtual memories are mapped to different physical addresses (to save memory, it might only be actually duplicated once one of the processes changes it). Thus after \texttt{fork} the parent cannot change its child's variables and vice-versa. \\
+        \textbf{(h)} & False & \textbf{Multiprogramming} means several programs can simultaneously be loaded in principal memory; this does not require \textbf{multiprocessing} (several processes can simultaneously \textit{execute})\\
+        \textbf{(i)} & True & Opening with \texttt{O\_APPEND} does exactly that: uses a sort of synchronization mechanism, performs a seek until it finds EOF, writes to the end of the file and then unlocks the synchronization mechanism. \\
+        \textbf{(j)} & True & If all programs operate at the same level they can overwrite each others' memory. Thus a distinction between a privileged/kernel mode (OS API allowing controlled interaction with the computer resources through trusted functions) and user mode (custom, less trusted programs made on top of the OS API, with limited privileges/permissions). \\
+        \textbf{(k)} & False & In the context of virtual memory management, a \textbf{page fault} leads to the OS to load the missing page into principal memory (or otherwise to wait until it is possible to load it). \\
+        \textbf{(l)} & True & As tested in the TP class about signals, once a handler is entered only one more signal of the same kind is usually received, as subsequent signals are ignored. \\
+        \textbf{(m)} & True & Threads do not require shared memory or pipes, unlike processes. \\
+        \textbf{(n)} & False & \texttt{signal} installs a signal handler, while \texttt{pthread\_cond\_signal} signals a condition variable. They are not related. \\
+        \textbf{(o)} & False & An \texttt{exec} call does not create a new process, it reclaims almost all memory and replaces the running code with another program's code.
+    \end{longtable}
+\end{center}
+
+\question{Question 2}
+\questionitem{Item a}
+\begin{itemize}
+    \item The hardware mechanism known as DMA (Direct Memory Access) is fundamental to \textbf{implement multiprogramming}.
+    \item Over its existence, processes/threads commute between three states which are \textbf{ready, executing and blocked}.
+    \item The simplest way to prevent deadlocks in user programs is to \textbf{order resources and claim them always by that order}.
+    \item A high disk activity and low processor usage can be a symptom of \textbf{thrashing}.
+    \item In Linux, the data structure describing files and directories in disk is named \textbf{i-node}.
+\end{itemize}
+
+\questionitem{Item b}
+\begin{center}
+    \lstset{
+        numbers=none,
+        showlines=true
+    }
+    \begin{tabular}{p{35mm} | p{35mm} | p{35mm} | p{35mm}}
+        \begin{lstlisting}[language=C]
+init(mutex, 1);
+init(sem1, 2);
+init(sem2, 0);
+init(sem3, 0);
+
+
+
+        \end{lstlisting} &
+        \begin{lstlisting}[language=C]
+wait(sem1);
+wait(sem1);
+wait(mutex);
+f1();
+signal(mutex);
+signal(sem2);
+signal(sem3);
+        \end{lstlisting} &
+        \begin{lstlisting}[language=C]
+wait(sem2);
+wait(mutex);
+f2();
+signal(mutex);
+signal(sem1);
+
+
+        \end{lstlisting} &
+        \begin{lstlisting}[language=C]
+wait(sem3);
+wait(mutex);
+f3();
+signal(mutex);
+signal(sem1);
+
+
+        \end{lstlisting}
+    \end{tabular}
+\end{center}
+
+\questionitem{Item c}
+The reference bit $R$ and modification bit are important to manage a demand paging system.
+
+The modification bit $M$ is set to 1 if that page is in principal memory and it was modified since the last time it was swapped in. This is important to know, as it is obvious that, if the modification bit is set, we cannot simply overwrite this page on swapping out, we need to copy its contents to secondary memory before completely swapping it out.
+
+The reference bit is set to 1 if that page was referenced since the last time the reference bits were cleared (reference bits are usually cleared periodically using a special counter).
+
+These bits are important to decide which pages can be swapped out with the least impact as possible CPU-wise (we prefer pages that have not been modified, $M=0$, or otherwise pages that have not been referenced in a while, $R=0$), using a page swapping algorithm like LRU.
+
+\question{Question 3}
+Program \texttt{removebig} removes from a directory all regular files with size larger than a given value. The program receives as arguments the directory name and the said size (sample invocation to remove files with size above 1000000 from directory \texttt{dir1}: \texttt{removebig dir1 1000000}). \textbf{Note:} subdirectories should be ignored.
+
+\questionitem{Item a}
+Write the part of \texttt{removebig} code that iterates over the said directory and, for each regular file with size above the limit, writes the file name in standard output, increments a counter of number of files to be removed (variable \texttt{count}) and invokes function \texttt{void remove(char *filename)}, which has as parameter the name of the file to be removed. Do not implement that function yet.
+
+\ansseparator
+
+\begin{lstlisting}[language=C]
+const char *dirpath = argv[1];
+long sz = atol(argv[2]);
+DIR *dir = opendir(dirpath);
+struct dirent *entry = NULL;
+struct stat stat_entry;
+while((entry = readdir(dir)) != NULL){
+    char d_name[256];
+    sprintf(d_name, "%s/%s", dirpath, entry->d_name);
+    stat(d_name, &stat_entry);
+    if(S_ISREG(stat_entry.st_mode) && stat_entry.st_size > sz){
+        printf("%s\n", entry->d_name);
+        ++count;
+        remove(d_name);
+    }
+}
+\end{lstlisting}
+
+\questionitem{Item b}
+Implement function \texttt{remove} that removes the file whose name it receives as argument, using for that end a subprocess (child process) executing command \texttt{rm}. \textbf{Note:} do not use \texttt{system()} calls.
+
+\ansseparator
+
+\begin{lstlisting}[language=C]
+void remove(char *filename){
+    pid_t pid = fork();
+    if(pid != 0) execlp("rm", "rm", filename, (char*)NULL);
+}
+\end{lstlisting}
+
+\questionitem{Item c}
+Write the part of \texttt{removebig} code that waits for all child processes to end and prints to standard output the total number of removed files.
+
+\ansseparator
+
+\begin{lstlisting}[language=C]
+while(!wait(NULL)){}
+if(errno != ECHILD) exit(1);
+printf("Removed files: %d\n", count);
+\end{lstlisting}
+
+\question{Question 4}
+\questionitem{Item a}
+\begin{center} \begin{tabular}{p{75mm} | p{75mm}}
+    Implementation 1 & Implementation 2 \\ \hline
+    \begin{itemize}[topsep=0pt, leftmargin=4mm]
+        \itemsep0em
+        \item Creates new process and connects to it with a pipe using \texttt{popen}.
+        \item Reads the subprocess output to buffer \texttt{msg} and writes it to \texttt{CHANNEL}.
+    \end{itemize} &
+    \begin{itemize}[topsep=0pt, leftmargin=4mm]
+        \itemsep0em
+        \item Redirects output from standard output to \texttt{CHANNEL}, allowing \texttt{md5sum} to directly send its output to the server.
+        \item Replaces current process code by that of \texttt{md5sum} after running \texttt{execlp}.
+    \end{itemize}
+\end{tabular} \end{center}
+
+\questionitem{Item b}
+
+There are two main concerns: that messages are not interleaved, and that the implementation is fast and efficient.
+
+\begin{enumerate}
+    \item Implementation 1, since redirection of output to \texttt{CHANNEL} in implementation 2 means messages written one character at a time will most likely be interleaved. If implementation 1 is used, \texttt{msg} is used as a buffer that will allow to write the whole message atomically (assuming it is smaller than \texttt{PIPE\_BUF}).
+    \item Implementation 2, since it is simpler to implement (there is no middle-man/buffer), faster because there are less intermediate steps when compared to implementation 1, and more memory-efficient since we do not have to allocate a buffer or create a new process which takes up extra memory.
+    \item None, because \texttt{MAX\_SIZE} being larger than \texttt{PIPE\_BUF} means none of the writes in implementation 1 or 2 will be atomic, thus it would be necessary to have an external synchronization method.
+\end{enumerate}
+
+\questionitem{Item c}
+\begin{lstlisting}[language=C,escapechar=ä]
+int main(){
+    char msg[MAX_SIZE + 1] = { '\0' }; // all elements filled with '\0'
+    int fd, nr;
+    mkfifo(ä\underline{CHANNEL, 0777}ä);
+    fd = open(ä\underline{CHANNEL, O\_RDONLY}ä);
+    while (((nr = read(ä\underline{fd, msg, MAX\_SIZE}ä)) > 0) && (msg[0] != '\0')) {
+        printf("%s\n", ä\underline{msg}ä); // write received message
+        // process received message
+    }
+    unlink(ä\underline{CHANNEL}ä);
+    return 0;
+}
+\end{lstlisting}
+
+\newpage
+\question{Question 5}
+\questionitem{Item a}
+\begin{lstlisting}[language=C]
+void* thread2(void *arg){
+    //...
+    while(1){
+        sem_wait(&sem2);
+        pthread_mutex_lock(&mutex);
+        f2();
+        pthread_mutex_unlock(&mutex);
+        sem_post(&sem1);
+    }
+    //...
+}
+\end{lstlisting}
+
+\questionitem{Item b}
+All semaphores/mutexes must be global. They should also be initialized in the same place they are declared whenever possible, as a way to make declaration and initialization as close as possible to increase intelligibility.
+
+\begin{lstlisting}[language=C]
+// Global
+pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+sem_t sem1, sem2, sem3;
+// main
+pthread_mutex_lock(&mutex);
+sem_init(&sem1, 2);
+sem_init(&sem2, 0);
+sem_init(&sem3, 0);
+\end{lstlisting}
+
+\questionitem{Item c}
+There are two options:
+\begin{enumerate}
+    \item Use named semaphores. We would convert \texttt{mutex} from a mutex (\texttt{pthread\_mutex\_t}) to a semaphore (\texttt{sem\_t}), and then have the initial thread create the named semaphores using \texttt{sem\_open}. Threads T1, T2 and T3 would then have to open those named semaphores with \texttt{sem\_open}, and then use them as usual. Instead of calling \texttt{sem\_destroy}, it would be necessary to \texttt{sem\_close} and \texttt{sem\_unlink} the semaphores.
+    \item Use shared memory, saving in it the semaphores. Preferrably we would actually create a \texttt{struct} with all required semaphores and mutexes, and then allocate a piece of shared memory with the size of the \texttt{struct}, using \texttt{shm\_open} to create it and \texttt{ftruncate} to resize it. Then threads T1, T2 and T3 would have to open that shared memory and map it to its address space, and at the end unmap and close the shared memory. To cleanup one would have to call \texttt{shm\_unlink} to unlink/free that shared memory.
+\end{enumerate}
+
+\end{document}
