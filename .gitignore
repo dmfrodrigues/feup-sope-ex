@@ -23,6 +23,7 @@
 *.lof
 exams/**/*.pdf
 !exams/**/[0-9][0-9][0-9][0-9][NR].pdf
+!exams/**/[0-9][0-9][0-9][0-9][NR]-sol.pdf
 a.out
 tp03/text.out
 test
