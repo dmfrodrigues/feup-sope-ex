@@ -6,16 +6,11 @@
 % Tables with colored cells
 \RequirePackage[table]{xcolor}%
 % Graphics and images
-\RequirePackage{graphicx}
 \RequirePackage{tikz}
 \RequirePackage{tikz-qtree}
 \usetikzlibrary{automata, positioning, arrows}
 % Encodings (to render letters with diacritics and special characters)
 \RequirePackage[utf8]{inputenc}
-\DeclareUnicodeCharacter{2205}{$\emptyset$}
-% Language
-\RequirePackage[english]{babel}
-%
 % Hyperreferences
 \RequirePackage{hyperref}
 % Source code
@@ -38,7 +33,6 @@
 % Tables that can span across multiple pages
 \RequirePackage{longtable}
 % Tables with diagonal slashes
-%\RequirePackage{slashbox}
 \RequirePackage{diagbox}
 % Directory trees
 \RequirePackage{dirtree}
@@ -63,20 +57,16 @@
 \let\@@title\@empty
 \let\@@author\@empty
 % Copyright page
-\def\secondpage{
+\newenvironment{secondpage}{
     \clearpage\null\vfill
     \thispagestyle{empty}
     \begin{minipage}[b]{0.9\textwidth}
         \footnotesize\raggedright
         \setlength{\parskip}{0.5\baselineskip}
-        Copyright \copyright 2020--\the\year\ Diogo Rodrigues\par
-        Permission is granted to copy and distribute this document under the terms of the
-        \href{https://creativecommons.org/licenses/by-nc-nd/4.0/}{Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International}
-        public license.
+}{
     \end{minipage}
     \vspace*{2\baselineskip}
 }
-
 % Headers and footers
 \RequirePackage{fancyhdr}
 \pagestyle{fancy}

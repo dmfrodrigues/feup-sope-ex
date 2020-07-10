@@ -2,14 +2,15 @@
 % Licensed under Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International (CC-BY-NC-ND 4.0)
 
 \documentclass{sope}
+\usepackage[english]{babel}
+% Metadata
 \title{SOPE -- Exam 2016/17}
 \author{Diogo Miguel Ferreira Rodrigues \\ \href{mailto:dmfrodrigues2000@gmail.com}{dmfrodrigues2000@gmail.com}}
+% Document
 \begin{document}
 
 \setcounter{chapter}{16}
 \exam{Exam 2016/17}
-{
-\renewcommand{\thesubsection}{\thesection\alph{subsection}}
 \question{Question 1}
 \begin{tabular}{p{29mm} | p{122mm}}
     DMA & Allows some hardware subsystems (usually peripherals) to directly access certain principal memory regions. This means the CPU is only required to start or end transactions, and the actual transactions can be performed by the subsystems, freeing CPU time. \\ \hline
@@ -271,8 +272,5 @@ while (true) {
     }
 }
 \end{lstlisting}
-        
-}
-
 
 \end{document}
