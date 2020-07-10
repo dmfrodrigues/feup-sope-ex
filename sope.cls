@@ -51,11 +51,8 @@
 \renewcommand\qedsymbol{$\blacksquare$}
 \theoremstyle{remark}
 \newtheorem*{remark}{Remark}
-% Some work
-\def\title#1{\gdef\@title{#1}\gdef\@@title{#1}}
-\def\author#1{\gdef\@author{#1}\gdef\@@author{#1}}
-\let\@@title\@empty
-\let\@@author\@empty
+% Answer separator
+\newcommand\ansseparator{\noindent\hfil\rule{0.5\textwidth}{.4pt}\hfil}
 % Copyright page
 \newenvironment{secondpage}{
     \clearpage\null\vfill
@@ -67,6 +64,11 @@
     \end{minipage}
     \vspace*{2\baselineskip}
 }
+% Some work
+\def\title#1{\gdef\@title{#1}\gdef\@@title{#1}}
+\def\author#1{\gdef\@author{#1}\gdef\@@author{#1}}
+\let\@@title\@empty
+\let\@@author\@empty
 % Headers and footers
 \RequirePackage{fancyhdr}
 \pagestyle{fancy}
@@ -76,15 +78,7 @@
 \fancyhead[RE, LO]{\textit{\leftmark}}
 \fancyhead[LE, RO]{\thepage}
 \fancyfoot[LE, RO]{\ifx\@@author\@empty\else\@@author\fi}
-% Answer separator
-\newcommand\ansseparator{\noindent\hfil\rule{0.5\textwidth}{.4pt}\hfil}
-% Alias
-\setcounter{secnumdepth}{1}
-\newcommand\exam[1]{\chapter{#1}}
-\newcommand\exampart[1]{\section{#1}}
-\newcommand\question[1]{\subsection{#1}}
-\newcommand\questionitem[1]{\subsubsection{#1}}
-
+% Sections
 \makeatletter
 \renewcommand\thesection{\thechapter\ifnum\c@section>\z@ -P\arabic{section}\fi}
 \renewcommand\thesubsection{\thesection-\arabic{subsection}}
@@ -102,3 +96,10 @@
 \newcommand{\sectionbreak}{\clearpage}
 \titleformat{\chapter}[display]
   {\normalfont\bfseries}{}{0pt}{\Huge}
+
+% Alias
+\setcounter{secnumdepth}{1}
+\newcommand\exam[1]{\chapter{#1}}
+\newcommand\exampart[1]{\section{#1}}
+\newcommand\question[1]{\subsection{#1}}
+\newcommand\questionitem[1]{\subsubsection{#1}}
