@@ -3,7 +3,7 @@ name: docs-release
 on:
   push:
     tags:
-      - 'release-*'
+      - 'v*'
 
 jobs:
   build:
@@ -31,7 +31,7 @@ jobs:
         git submodule sync --recursive
         git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --recursive --depth=1
     - name: Make all documents
-      run: make VERSION=?
+      run: make VERSION=${RELEASE_VERSION:1:100}
 
     - name: Upload exams
       uses: actions/upload-artifact@v2
