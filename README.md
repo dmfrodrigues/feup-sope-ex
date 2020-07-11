@@ -2,8 +2,8 @@
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
-![Test](https://github.com/dmfrodrigues/feup-sope-ex/workflows/Test/badge.svg)
-![Compile documents](https://github.com/dmfrodrigues/feup-sope-ex/workflows/Compile%20documents/badge.svg)
+![test](https://github.com/dmfrodrigues/feup-sope-ex/workflows/test/badge.svg)
+![docs](https://github.com/dmfrodrigues/feup-sope-ex/workflows/docs/badge.svg)
 
 - **Institution:** [FEUP](https://sigarra.up.pt/feup/en/web_page.Inicial)
 - **Course:** [SOPE](https://sigarra.up.pt/feup/en/ucurr_geral.ficha_uc_view?pv_ocorrencia_id=436440) (Operating Systems)

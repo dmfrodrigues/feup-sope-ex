@@ -1,4 +1,4 @@
-name: Compile documents
+name: docs
 
 on:
   push:
