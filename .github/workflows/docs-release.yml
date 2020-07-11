@@ -11,14 +11,12 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Set env
-      run: echo ::set-env name=RELEASE_VERSION::${GITHUB_REF#refs/*/}
+    - name: Set version
+      run: echo ::set-env name=VERSION::${GITHUB_REF#refs/*/}
 
-    - name: Test
-      run: |
-        echo $RELEASE_VERSION
-        echo ${{ env.RELEASE_VERSION }}
-    
+    - name: Checkout right version
+      run: git checkout $(git rev-list -n 1 $VERSION)
+
     - name: Install latex
       run: sudo apt install -y texlive-latex-extra texlive-science latexmk
 
@@ -31,7 +29,7 @@ jobs:
         git submodule sync --recursive
         git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --recursive --depth=1
     - name: Make all documents
-      run: make VERSION=${RELEASE_VERSION:1:100}
+      run: make VERSION=${VERSION:1:100}
 
     - name: Upload exams
       uses: actions/upload-artifact@v2
