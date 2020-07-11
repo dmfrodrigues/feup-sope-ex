@@ -40,7 +40,7 @@
 \RequirePackage[mathscr]{euscript}
 \RequirePackage{amsmath,amssymb}
 \RequirePackage{mathtools}
-\RequirePackage{enumitem}
+\RequirePackage[inline]{enumitem}
 \RequirePackage[binary-units=true]{siunitx} %SI units
 % Definitions, theorems, remarks,...
 \RequirePackage{amsthm}
