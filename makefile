@@ -1,5 +1,5 @@
 RM=rm -f
-LATEX=latexmk -synctex=1 -interaction=nonstopmode -pdf
+LATEX=latexmk -synctex=1 -interaction=nonstopmode --shell-escape -pdf
 
 all: exams/SOPE_exams.pdf
 
