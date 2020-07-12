@@ -39,9 +39,7 @@ int main(int argc, char *argv[]){
         if(S_ISREG(stat_buf.st_mode)) type = 1;
         if(S_ISDIR(stat_buf.st_mode)) type = 2;
         if(strcmp(direntp->d_name, special_name) == 0) type = 100;
-
         ino_t inode = direntp->d_ino;
-
         blkcnt_t sz = stat_buf.st_blocks;
 
         write(fd[1], &type, sizeof(int));

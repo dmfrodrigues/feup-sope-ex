@@ -20,7 +20,6 @@ int main(int argc, char *argv[]){
         char d_name[1024];
         sprintf(d_name, "%s/%s", dir_name, direntp->d_name);
         stat(d_name, &stat_buf);
-
         strcpy(name, direntp->d_name);
     }
 
