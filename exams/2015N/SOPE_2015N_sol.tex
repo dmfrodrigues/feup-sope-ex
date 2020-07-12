@@ -147,15 +147,17 @@ It would be possible to turn \texttt{sem} into a mutex, but it would not be very
 \questionitem{Item e}
 Having at least 2 processors, to get the minimum running time we will assume the two threads will be running each in a core at all time.
 
+The following diagrams show what each thread is doing at each time; $f$ is the producer and $p$ is the consumer.
+
 The producer is not limited by any synchronization mechanism, so it always takes $10t_f$.
 
-When $t_f > t_p$, the consumer will always have something to consume because the producer can produce at a higher rate than the consumer can consume (except for the first item, for which it has to wait for $t_f$ time units), so the consumer takes $t_f + 10t_p$.
+When $t_f < t_p$, the consumer will always have something to consume because the producer can produce at a higher rate than the consumer can consume (except for the first item, for which it has to wait for $t_f$ time units), so the consumer takes $t_f + 10t_p$.
 
 \begin{center}
     \includegraphics[scale=0.2]{2015N_06e-2}
 \end{center}
 
-When $t_f < t_p$, the consumer can consume at a higher rate than the producer can produce, so it will be blocked for $\Delta = t_p-t_f$ time units in \texttt{sem\_wait(\&sem)}; thus the consumer takes $t_f + 9(t_p+\Delta)+t_p$ (initially waits $t_f$, then consumes each of the items in $t_p$ and waits $\Delta$ for the next one, and then consumes the last one in $t_p$), which amounts to $t_f+9t_f + t_p = 10t_f + t_p$.
+When $t_f > t_p$, the consumer can consume at a higher rate than the producer can produce, so it will be blocked for $\Delta = t_f-t_p$ time units in \texttt{sem\_wait(\&sem)}; thus the consumer takes $t_f + 9(t_p+\Delta)+t_p$ (initially waits $t_f$, then consumes each of the items in $t_p$ and waits $\Delta$ for the next one, and then consumes the last one in $t_p$), which amounts to $t_f+9t_f + t_p = 10t_f + t_p$.
 
 \begin{center}
     \includegraphics[scale=0.2]{2015N_06e-1}
