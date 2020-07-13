@@ -24,7 +24,7 @@ int main(int argc, char *argv[]){
             perror("wait");
             exit(1);
         }
-        if(status) exit(1);
+        if(!WIFEXITED(status) || WEXITSTATUS(status) != 0) exit(1);
     }
     // 3.
     DIR *dirp = opendir(dir1);
