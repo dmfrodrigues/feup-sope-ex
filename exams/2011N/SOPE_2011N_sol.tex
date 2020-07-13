@@ -152,7 +152,7 @@ void* t_aposta(void *arg){
         printf("%s", "Choose a number from 1 to 6: ");
         scanf("%d", &aposta); aposta_feita = 1;
         while(aposta_feita == 1){}
-    }
+    } return NULL;
 }
 \end{lstlisting}
 \textbf{(2)}
@@ -161,7 +161,7 @@ void* t_roda(void *arg){
     while(1){
         face = rand()%6 + 1; numero_sorteado = 1;
         while(numero_sorteado == 1){}
-    }
+    } return NULL;
 }
 \end{lstlisting}
 \textbf{(3)}
@@ -175,7 +175,7 @@ void* t_compara(void *arg){
         else               ++apostas_perdidas;
         numero_sorteado = 0;
         aposta_feita    = 0;
-    }
+    } return NULL;
 }
 \end{lstlisting}
 \textbf{(4)}
@@ -185,7 +185,7 @@ void* t_mostra(void *arg){
         printf("%d %d %d\n", numero_jogadas,
             apostas_ganhas, apostas_perdidas);
         sleep(1);
-    }
+    } return NULL;
 }
 \end{lstlisting}
 \textbf{(5)}
@@ -219,7 +219,7 @@ void* t_compara(void *arg){
         numero_sorteado = 0;
         aposta_feita    = 0;
         sem_post(&sem_mostra);                  //<===
-    }
+    } return NULL;
 }
 \end{lstlisting}
 
@@ -230,7 +230,7 @@ void* t_mostra(void *arg){
         printf("%d %d %d\n", numero_jogadas,
             apostas_ganhas, apostas_perdidas);
         sem_post(&sem_compara);                 //<===
-    }
+    } return NULL;
 }
 \end{lstlisting}
 \begin{lstlisting}[language=C]
