@@ -11,6 +11,7 @@
 \usetikzlibrary{automata, positioning, arrows}
 % Encodings (to render letters with diacritics and special characters)
 \RequirePackage[utf8]{inputenc}
+\RequirePackage[T1]{fontenc}
 % Hyperreferences
 \RequirePackage{hyperref}
 % Source code
