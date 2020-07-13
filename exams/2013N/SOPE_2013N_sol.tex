@@ -4,7 +4,7 @@
 \documentclass{sope}
 \usepackage[english]{babel}
 % Metadata
-\title{SOPE -- Exam 2012/13}
+\title{SOPE--- Exam 2012/13}
 \author{Diogo Miguel Ferreira Rodrigues \\ \href{mailto:dmfrodrigues2000@gmail.com}{dmfrodrigues2000@gmail.com}}
 % Document
 \begin{document}
@@ -74,10 +74,48 @@ On hitting a page we only need the time of access to memory $t_{am}$. On page fa
 
 \question{Question 3}
 \questionitem{Item a}
-\lstinputlisting[language=C, firstline=8, lastline=13]{2013N_03.cpp}
+\lstinputlisting[language=C, firstline=8, lastline=13]{2013N_03.c}
 
 \questionitem{Item b}
 Changed lines are commented with \texttt{//<===}.
-\lstinputlisting[language=C, firstline=15, lastline=32]{2013N_03.cpp}
+\lstinputlisting[language=C, firstline=15, lastline=32]{2013N_03.c}
+
+\question{Question 4}
+\questionitem{Item a}
+\begin{center}
+    \footnotesize
+    \setlength{\tabcolsep}{3pt}
+    \begin{tabular}{c | p{3.5mm} | p{3.5mm} | p{3.5mm} | p{3.5mm} | p{3.5mm} | p{3.5mm} | p{3.5mm} | p{3.5mm} | p{3.5mm} | p{3.5mm} | p{3.5mm} | p{3.5mm} | p{3.5mm} | p{3.5mm} | p{3.5mm} | p{3.5mm} | p{3.5mm} | p{3.5mm} | p{3.5mm} | p{3.5mm} | p{3.5mm} | p{3.5mm} | p{3.5mm} | p{3.5mm} | p{3.5mm} | p{3.5mm}}
+           & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16 & 17 & 18 & 19 & 20 & 21 & 22 & 23 & 24 & 25 \\ \hline
+        R1 & $\triangleright$ & \cellcolor{gray!70} &\cellcolor{gray!70}&\cellcolor{gray!70}&\cellcolor{gray!70}&   &   &   &   &   &    &    &    &    &    &    &    &    &    &    &    &    &    &    &    &    \\ \hline
+        R2 &   &   & $\triangleright$ &\cellcolor{gray!70}&\cellcolor{gray!70}&\cellcolor{gray!70}&\cellcolor{gray!70}&   &   &   &    &    &    &    &    &    &    &    &    &    &    &    &    &    &    &    \\ \hline
+        R3 &   &   &   &   &   &   &   &   & $\triangleright$ &---&--- &--- &\cellcolor{gray!70} &\cellcolor{gray!70} &\cellcolor{gray!70} &\cellcolor{gray!70} &    &    &    &    &    &    &    &    &    &    \\ \hline
+        W1 &   & $\triangleright$ &---&---&---&---&---&\cellcolor{gray!70}&\cellcolor{gray!70}&\cellcolor{gray!70}&\cellcolor{gray!70} &\cellcolor{gray!70} &    &    &    &    &    &    &    &    &    &    &    &    &    &    \\ \hline
+        W2 &   &   &   &   &   &   &   & $\triangleright$ &---&---&--- &--- &--- &--- &--- &--- &\cellcolor{gray!70} &\cellcolor{gray!70} &\cellcolor{gray!70} &\cellcolor{gray!70} &\cellcolor{gray!70} &    &    &    &    &    
+    \end{tabular}
+\end{center}
+
+\questionitem{Item b}
+At $t=10$, \texttt{wSem=0} and \texttt{X=1}. Process W1 owns \texttt{wSem}. Processes R3 and W2 are blocked.
+
+\question{Question 5}
+\questionitem{Item a}
+\lstinputlisting[language=C, firstline=15, lastline=28, firstnumber=15]{2013N_05.c}
+
+\questionitem{Item b}
+\begin{enumerate}[label=3.\arabic*]
+    \item Open directory \texttt{dir1}.
+    \item Read entry in directory \texttt{dir1}. While the entry is valid (not \texttt{NULL}):
+    \begin{enumerate}[label*=.\arabic*]
+        \item Collect entry data, using \texttt{stat}.
+        \item If the entry is not a directory, continue.
+        \item If it is a directory, let its name be \texttt{dir11}.
+        \item Run \texttt{bckp} with correct arguments: the first argument is \texttt{<dir1>/<dir11>}, the second argument is \texttt{<dir2>/<dir11>}, the third argument is \texttt{dt}.
+    \end{enumerate}
+\end{enumerate}
+
+\newpage
+\questionitem{Item c}
+\lstinputlisting[language=C, firstline=29, lastline=47, firstnumber=29]{2013N_05.c}
 
 \end{document}
