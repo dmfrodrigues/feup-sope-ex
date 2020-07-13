@@ -1,0 +1,83 @@
+% (C) 2020 Diogo Rodrigues
+% Licensed under Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International (CC-BY-NC-ND 4.0)
+
+\documentclass{sope}
+\usepackage[english]{babel}
+% Metadata
+\title{SOPE -- Exam 2012/13}
+\author{Diogo Miguel Ferreira Rodrigues \\ \href{mailto:dmfrodrigues2000@gmail.com}{dmfrodrigues2000@gmail.com}}
+% Document
+\begin{document}
+
+\setcounter{section}{12}
+\exam{Exam 2012/13}
+\question{Question 1}
+\begin{center} 
+    \begin{longtable}{c | c p{132mm}}
+        \textbf{(a)} & False & Given the program finishes, it takes less time to execute with non-preemptive scheduling than preemptive scheduling. That is because non-preemptive scheduling simply means a process gives up the CPU when it finishes; on the other side, preemptive scheduling may preempt that process to switch context (which has a considerable overhead). \\
+        \textbf{(b)} & True & That is some of the information stored in the Process Control Block \\
+        \textbf{(c)} & False & If those two files are open in a mode any other than \emph{append}, each file descriptor will have its own file cursor which may point to different places in the file. Thus, the two file descriptors resulting from opening the same file are not identical. \\
+        \textbf{(d)} & True & This is usually the easiest way. A way to implement this advice is to order resources and always request them by that order; this will remove any cycles. \\
+        \textbf{(e)} & True & Virtual memory management and the working-set strategy are indeed based on the principle of locality of reference. \\
+        \textbf{(f)} & False & After \texttt{fork}'ing, the child gets a copy of all variables that the parent had at the moment of \texttt{fork}'ing (Global and all local variables inside the scope of \texttt{fork}). \\
+        \textbf{(g)} & True & They cannot interfere in terms of functionality, as a zombie process is actually only a block of a process' return data and additional bookkeeping (total CPU time, etc.). Zombie processes can however interfere with new processes if there are too many zombies, which unnecessarily use lots of distinct process IDs, which means the OS may refuse to start new processes because the maximum number of processes has been reached (i.e. the OS cannot find an unused PID to use for a new process). \\
+        \textbf{(h)} & False & A FIFO can only be used for communication in the same computer, not for communication between different computers (even if it can be seen and opened when mounted via NFS, there is no data communication). For that you can use a socket. \\
+        \textbf{(i)} & True & If a signal is already being handled, usually only one more signal can be successfuly sent, as all other subsequent signals of the same kind are ignored. \\
+        \textbf{(j)} & False & The argument being passed is a pointer to the cycle variable, which might not only eventually fall out of scope (be deallocated from the stack), but we are also passing the same pointer for all threads, so we are actually passing the same value to all threads.
+    \end{longtable}
+\end{center}
+
+\question{Question 2}
+\questionitem{Item a}
+DMA is a technique that consists of using a special DMA controller that coordinates with device controllers to manage I/O operations, allowing I/O devices to directly access special regions of principal storage; this limits the CPU role to informing the controller to start a transaction, and latter on be interrupted by the controller to take note that the transaction is over.
+
+Multiprogramming is the ability of a computer to have several programs loaded in memory simultaneously.
+
+DMA is essential to implement multiprogramming because it frees CPU time from routine tasks related to transactions with computer devices which are typically a lot slower when compared to CPU clock frequency, thus allowing the CPU to dedicate more resources to less trivial operations.
+
+\questionitem{Item b}
+Priority is a way to rank processes so that the scheduling algorithm being used can optimize whatever it aims at optimizing (usually we want to minimize the average wait time of all processes). An optimal algorithm already knows for starters how much time each process will take, but in real life it can be hard to even estimate the time a process will take. Thus instead of using estimated time we may use an abstract priority strategy, where the priority is dynamically updated according to the observed process behaviour.
+
+\questionitem{Item c}
+All of the following inter-process communication methods are accessible through a file system name.
+\begin{itemize}
+    \item \textbf{FIFO:} unidirectional stream/queue of bytes that can be written on one end and read from the other. Thus there is no concept of message boundary, and the writers and readers will otherwise have to make sense of what they are doing themselves, for instance by having a communication protocol.
+    \item \textbf{Message queue:} queue of messages. There is a concept of message boundaries, which means there is some sort of procotol already embedded in the way message queues work. They are also bidirectional.
+    \item \textbf{Shared memory:} memory region that can be shared among processes. That's just it: nothing else, no easy ways.
+\end{itemize}
+
+Considering volume of information:
+\begin{itemize}
+    \item \textbf{Message queue:} a queue can have up to 10 messages by default or $2^{16}$ as a hard limit. A message can have up to $\SI{8}{\kilo\byte}$ by default or $\SI{16}{\mega\byte}$ as a hard limit. This means the maximum capacity is $\SI{80}{\kilo\byte}$ by default and $\SI{1}{\tera\byte}$ as a hard limit, if we ignore physical system restrictions and user restrictions which usually place this value on a much lower level.
+    \item \textbf{FIFO:} can hold 16 pages, which in a system with $\SI{4}{\kilo\byte}$ pages means it has a capacity of $\SI{64}{\kilo\byte}$.
+    \item \textbf{Shared memory:} is limited only by system restrictions.
+\end{itemize}
+
+Considering type of information:
+\begin{itemize}
+    \item \textbf{Message queue:} enforces that information is exchanged as messages. A message can only be read once and then it is removed from the queue. A message can have an associated priority, which will cause it to be delivered before all messages with lower priority. Useful for inter-process communication. Also, message queues are persistent.
+    \item \textbf{FIFO:} it is a byte stream, so it does not enforce any kind of structure. Each byte can only be read once and then it is removed from the FIFO. Useful for inter-process communication. Not persistent once one of the ends is not open by any process.
+    \item \textbf{Shared memory:} data can be read multiple times, as this is a shared memory region: just as any regular memory region, it can be read and changed as many times as needed. Useful for data shared between processes with a lifespan similar to that of the processes.
+\end{itemize}
+
+Considering information transfer rate:
+\begin{itemize}
+    \item \textbf{Message queue:} the most overhead, as a message queue is highly structured, and the priority system adds additional overhead. Considerable but not large transfer rate.
+    \item \textbf{FIFO:} it is a byte stream, so it has relatively low overhead. Large transfer rate.
+    \item \textbf{Shared memory:} no additional overhead as it is a shared memory region mapped to each process' virtual memory space.
+\end{itemize}
+
+\questionitem{Item d}
+When a page is referenced, there can only be one of two outcomes: page hit (the page is currently in principal memory) or page miss/fault (the page is not in principal memory). Thus the hit ratio is the complementary of the page fault ratio.
+
+On hitting a page we only need the time of access to memory $t_{am}$. On page fault we need the time to process the page fault (load it into principal memory and access it) $t_{pf}$. The average time it takes to process a memory access when the page fault rate is $p$ and the hit rate is $1-p$ is given by $\overline{t} = p \cdot t_{pf} + (1-p) \cdot t_{am}$. Since $t_{pf}$ is of an order of magnitude of 100 times larger than $t_{am}$, these values are very different to the page fault rate $p$ (and the hit rate $1-p$) have a large impact in demand paging performance. In short, the larger the page fault rate the worst the performance, and even small values of page fault rate have large impacts because the overhead of handling a page fault is huge compared to that of simply accessing memory.
+
+\question{Question 3}
+\questionitem{Item a}
+\lstinputlisting[language=C, firstline=8, lastline=13]{2013N_03.cpp}
+
+\questionitem{Item b}
+Changed lines are commented with \texttt{//<===}.
+\lstinputlisting[language=C, firstline=15, lastline=32]{2013N_03.cpp}
+
+\end{document}
