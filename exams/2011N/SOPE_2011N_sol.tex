@@ -1,0 +1,249 @@
+% (C) 2020 Diogo Rodrigues
+% Licensed under Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International (CC-BY-NC-ND 4.0)
+
+\documentclass{sope}
+\usepackage[english]{babel}
+% Metadata
+\title{SOPE--- Exam 2010/11}
+\author{Diogo Miguel Ferreira Rodrigues \\ \href{mailto:dmfrodrigues2000@gmail.com}{dmfrodrigues2000@gmail.com}}
+% Document
+\begin{document}
+
+\setcounter{chapter}{12}
+\exam{Exam 2012/13}
+\question{Question 1}
+\begin{center} 
+    \begin{longtable}{c | c p{132mm}}
+        \textbf{(1)} & False & Multiprogramming is the feature of a computer system that allows it to have several programs loaded in memory simultaneously. That does not require multiple processors, as the running processes can be scheduled to run \emph{at the same time}, or some of those processes might be running using DMA simultaneously with another process running on the CPU. \\
+        \textbf{(2)} & False & A process can transition directly from \emph{executing} to \emph{ready} if, for instance, it has spent all its time slice. \\
+        \textbf{(3)} & False & A process in a multi-threading, thread-oriented computer system will not store a program counter, as all there is is threads (even if the process only has one thread). Thus the process control block will not store any program counters; rather, there will be three thread control blocks, one for the main thread and two for the auxiliary threads, each block storing its thread's program counter. \\
+        \textbf{(4)} & False & A critical section is one that may not be run by more than a single thread simultaneously. A process may be preempted to run another thread, as long as the other thread does not try to enter the same section, in which case it will block. An operation that the process cannot be preempted when running it is called an \emph{atomic} operation. \\
+        \textbf{(5)} & True & To implement efficient synchronization mechanisms like semaphores, it is required that the hardware is equipped with one of a group of low-level instructions like Test\&Set, Swap of Spinlocks. Otherwise the only chance to have synchronization will be to program a software solution which will be significantly slower. \\
+        \textbf{(6)} & False & Deadlocks require four necessary conditions to be met for it to be able to happen: mutual exclusion, hold and wait, no-preemption and circular wait. So meeting one of these conditions is not sufficient for a deadlock to happen. \\
+        \textbf{(7)} & True & Virtual memory management techniques fundamentally depend on the principle of locality of reference, as this principle provides a decent heuristic for efficient and almost-optimal paging algorithms. \\
+        \textbf{(8)} & False & There is only such a guarantee when both processes open the file in append mode, otherwise those two file descriptors will have different file pointers associated to them, and overwrite may happen if no other synchronization mechanisms or operations are performed aside from writting. \\
+        \textbf{(9)} & False & It allows a parent to wait for any child to end, but it does not allow a child to wait for its parent to end, as the \texttt{wait} function is only valid for waits for child processes. \\
+        \textbf{(10)} & True & It must be created by the parent, and additionally it must be created before \texttt{fork}'ink, as only that will allow the child process to inherit the same file descriptors as the parent for that unnamed pipe.
+    \end{longtable}
+\end{center}
+
+\question{Question 2}
+\begin{enumerate}[label=\alph*)]
+    \item \textbf{global program variables} are not shared between a parent and a child; after \texttt{fork}'ink the child will have an exact copy of every variable the parent had at that time, and as such the same variable in the parent and a child do not refer to the same physical variable as they are allocated to different physical addresses.
+    \item \textbf{arguments of \texttt{exec} calls} only provide for unidirectional data flow, as only the process that creates a new one can pass it information via command line arguments.
+    \item \textbf{pipes} allow unidirectional communication only (i.e. one pipe is unidirectional, so two pipes can be used to make a bidirectional communications channel).
+    \item \textbf{shared memory} can be read and written by all processes with access to it, so it definitely allows bidirectional communication.
+\end{enumerate}
+
+As for the need of synchronization mechanisms for those that allow bidirectional communication: pipes do not require synchronization as all required synchronization is already implemented in the functions made available by the OS API; shared memory requires additional synchronization mechanisms, as it is just that: a block of shared memory, and as such processes must take the due precautions to avoid race conditions over data in shared memory.
+
+\question{Question 3}
+\questionitem{Item a}
+In this case:
+\begin{itemize}
+    \item the first car holds the lock for \texttt{bridge} and is crossing;
+    \item the second car holds the lock for \texttt{m2}, and because \texttt{scount==0} it is waiting to lock on the \texttt{bridge} (it is waiting for the cars in the opposite direction to cross).
+\end{itemize}
+
+\questionitem{Item b}
+It is possible for several vehicles to cross in the same way simultaneously. An example follows, without loss of generality.
+
+\begin{quote}
+Assume two cars simultaneously arrive at the bridge in the North-South direction. The first car obtains the lock on \texttt{m1}, locks \texttt{bridge}, unlocks \texttt{m1} and starts crossing the bridge. In the meanwhile, the second car, which was blocked waiting to lock \texttt{m1}, can now lock \texttt{m1}; because there was already a car crossing that same way (\texttt{ncount != 0}) it does not lock \texttt{bridge}, so it proceeds to unlock \texttt{m1} and also starts crossing the bridge. Thus we now have two cars crossing the bridge simultaneously in the same way.
+\end{quote}
+
+There is no limit as for the number of cars that can simultaneously cross the bridge in the same way, as there is no semaphore to regulate the resource ``maximum number of cars crossing the bridge in the same way''.
+
+\questionitem{Item c}
+No, because if there was a car 1 crossing the bridge in the North-South direction and another car 2 arrived in the opposite direction, car 1 would have the lock over \texttt{bridge}, and car 2 would obtain the lock over \texttt{m} and then try to obtain the lock over \texttt{bridge} (and would block as the North-South direction already has the lock over \texttt{bridge}). On the other hand, when car 1 is done crossing it will try to obtain the lock over \texttt{m} to decrement \texttt{ncount} and unlock \texttt{bridge}, but because car 2 owns the lock over \texttt{m} car 1 would block. Thus we arrive at a deadlock.
+
+\questionitem{Item d}
+No, because bridge is preemptable (a North-South car can lock \texttt{bridge} and another North-South car can unlock \texttt{bridge}). Also because there are no cycles in the resources/processes graph.
+
+There is a possibility of starvation, because the influx of cars in one direction can be such that the \texttt{bridge} is never unlocked if it is possible to keep \texttt{ncount} above zero for a prolongued period. Thus processes representing cars crossing in the South-North direction will starve.
+
+\question{Question 4}
+\questionitem{Item a}
+\begin{enumerate}
+    \item Extract the segment number from the logical address (usually the upper bits).
+    \item Access the segments table, searching for the physical address at which the segment starts.
+    \item Check if the offset to the address at which the segment starts is consistent with the segment size (if the offset is larger than the segment size then the logical address is invalid).
+    \item Finally, the physical address is the physical address at which the segment starts plus the offset.
+\end{enumerate}
+
+\questionitem{Item b}
+An operating system prevents a process from accessing memory regions it does not have access to by checking all memory references in run-time. This check is usually made with the assistance of additional information about which processes have access to which memory regions. In a virtual memory system, programs have access to contiguous virtual addresses up to a certain limit (kept in the limit register), thus all we need to do is compare the virtual address that is being accessed with the starting address of the program and the limit register, and cause an error if the address falls out of this range.
+
+Typically a process accessing a memory region that it is not supposed to receives a \emph{segmentation fault} error, which comes from the fact a program is divided into segments (data, stack, instructions, etc.), and making an access that violates this program segmentation scheme (writting an unwrittable segment or accessing an address outside the program segments) is a segmentation fault.
+
+\question{Question 5}
+\begin{lstlisting}[language=C]
+void sigchild_handler(int sig, siginfo_t *info, void *ucontext){
+    mean += info->si_status / np;
+}
+\end{lstlisting}
+To install signal handler:
+\begin{lstlisting}[language=C]
+    struct sigaction action;
+    
+    action.sa_sigaction = sigchild_handler;
+    sigemptyset(&action.sa_mask);
+    action.sa_flags = SA_SIGINFO;
+
+    sigaction(SIGCHILD, &action, NULL);
+\end{lstlisting}
+
+\questionitem{Item b}
+There is a risk of losing a child process's termination code, because it is usual for the OS to fail to deliver more than two simulaneous signals of the same kind if the first signal is still being handled. This is because signals are not intended as a way for processes to communicate large amounts of information.
+
+\question{Question 6}
+\questionitem{Item a}
+\begin{lstlisting}[language=C]
+// 1. define a structure
+typedef struct {
+    char s[9];
+    pid_t pid;
+    char c;
+} message_t;
+// 2. declare a variable of that type
+message_t message;
+// 3. fill the variable
+strcpy(message.s, "mkhead");
+message.pid = getpid();
+message.c = 'B';
+// 4. open the FIFO
+int fifo_fd = open("tmp/fifo.serv", O_WRONLY);
+// 5. write the message in the FIFO
+write(fifo_fd, &message, sizeof(message));
+\end{lstlisting}
+
+\questionitem{Item b}
+\begin{lstlisting}[language=C]
+// 1. define a structure (nothing to declare)
+// 2. declare variables
+char s[9];
+pid_t pid;
+char c;
+// 3. fill variables
+strcpy(s, "mkhead");
+pid = getpid();
+c = 'B';
+// 4. open the FIFO
+int fifo_fd = open("tmp/fifo.serv", O_WRONLY);
+// 5. write the data in the FIFO
+write(fifo_fd, s, sizeof(s));
+write(fifo_fd, &pid, sizeof(pid));
+write(fifo_fd, &c, sizeof(c));
+\end{lstlisting}
+
+\questionitem{Item c}
+The second option does not work when two processes are simultaneously writting to the FIFO. This is because data may end up interleaved because each process writes its message in three different write operations. On the other hand, the first option does not cause that problem because the structure is smaller than \texttt{PIPE\_BUF} so the single write it takes to send the message is also atomic, thus there is a guarantee that data will not be interleaved.
+
+\questionitem{Item d}
+It is not necessary, since the operating system automatically releases all resources and closes all open files when exiting a process, thus neither of those options has to close the FIFO because the OS will do that automatically. It is however good practice to explicitly close all files before returning, to make clear one's intention of closing it, and to eventually detect any errors reported through return codes.
+
+\question{Question 7}
+\questionitem{Item a}
+\textbf{(1)}
+
+\begin{lstlisting}[language=C]
+void* t_aposta(void *arg){
+    while(1){
+        printf("%s", "Choose a number from 1 to 6: ");
+        scanf("%d", &aposta); aposta_feita = 1;
+        while(aposta_feita == 1){}
+    }
+}
+\end{lstlisting}
+\textbf{(2)}
+\begin{lstlisting}[language=C]
+void* t_roda(void *arg){
+    while(1){
+        face = rand()%6 + 1; numero_sorteado = 1;
+        while(numero_sorteado == 1){}
+    }
+}
+\end{lstlisting}
+\textbf{(3)}
+\begin{lstlisting}[language=C]
+void* t_compara(void *arg){
+    while(1){
+        while(numero_sorteado == 0){}
+        while(aposta_feita    == 0){}
+        ++numero_jogadas;
+        if(aposta == face) ++apostas_ganhas;
+        else               ++apostas_perdidas;
+        numero_sorteado = 0;
+        aposta_feita    = 0;
+    }
+}
+\end{lstlisting}
+\textbf{(4)}
+\begin{lstlisting}[language=C]
+void* t_mostra(void *arg){
+    while(1){
+        printf("%d %d %d\n", numero_jogadas,
+            apostas_ganhas, apostas_perdidas);
+        sleep(1);
+    }
+}
+\end{lstlisting}
+\textbf{(5)}
+\begin{lstlisting}[language=C]
+int main(){
+    pthread_t tid_aposta, tid_roda, tid_compara, tid_mostra;
+    pthread_create(&tid_aposta , NULL, t_aposta , NULL);
+    pthread_create(&tid_roda   , NULL, t_roda   , NULL);
+    pthread_create(&tid_compara, NULL, t_compara, NULL);
+    pthread_create(&tid_mostra , NULL, t_mostra , NULL);
+    pthread_exit(NULL);
+}
+\end{lstlisting}
+
+\questionitem{Item b}
+\begin{lstlisting}[language=C]
+// Global
+sem_t sem_compara;
+sem_t sem_mostra;
+\end{lstlisting}
+
+\begin{lstlisting}[language=C]
+void* t_compara(void *arg){
+    while(1){
+        while(numero_sorteado == 0){}
+        while(aposta_feita    == 0){}
+        sem_wait(&sem_compara);                 //<===
+        ++numero_jogadas;
+        if(aposta == face) ++apostas_ganhas;
+        else               ++apostas_perdidas;
+        numero_sorteado = 0;
+        aposta_feita    = 0;
+        sem_post(&sem_mostra);                  //<===
+    }
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language=C]
+void* t_mostra(void *arg){
+    while(1){
+        sem_wait(&sem_mostra);                  //<===
+        printf("%d %d %d\n", numero_jogadas,
+            apostas_ganhas, apostas_perdidas);
+        sem_post(&sem_compara);                 //<===
+    }
+}
+\end{lstlisting}
+\begin{lstlisting}[language=C]
+int main(){
+    sem_init(&sem_compara, 0, 1);
+    sem_init(&sem_mostra , 0, 0);
+    pthread_t tid_aposta, tid_roda, tid_compara, tid_mostra;
+    pthread_create(&tid_aposta , NULL, t_aposta , NULL);
+    pthread_create(&tid_roda   , NULL, t_roda   , NULL);
+    pthread_create(&tid_compara, NULL, t_compara, NULL);
+    pthread_create(&tid_mostra , NULL, t_mostra , NULL);
+    pthread_exit(NULL);
+}
+\end{lstlisting}
+
+\end{document}
