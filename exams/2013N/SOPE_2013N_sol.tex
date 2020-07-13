@@ -120,6 +120,28 @@ At $t=10$, \texttt{wSem=0} and \texttt{X=1}. Process W1 owns \texttt{wSem}. Proc
 
 \question{Question 6}
 \questionitem{Item a}
+\lstinputlisting[language=C, firstline=73, lastline=78, firstnumber=73]{2013N_06a.c}
 
+\questionitem{Item b}
+\lstinputlisting[language=C, firstline=17, lastline=25, firstnumber=17]{2013N_06a.c}
+
+\questionitem{Item c}
+Those lines avoid a race condition over the buffer. Since this buffer is being used by several threads, it could happen that the two threads are changing it simultaneously (corrupt data); or it can also happen that, for instance, there are two threads t1 and t2 and \texttt{wi=0}, where the following may happen since the increment operator is not guaranteed to be atomic:
+\begin{enumerate}
+    \item \texttt{t1} starts running \texttt{wi++}, and saves the return value 0 to return it latter.
+    \item \texttt{t2} starts running \texttt{wi++}, and saves the return value 0 to return it latter.
+    \item \texttt{t1} finishes running \texttt{wi++}, so it becomes 1 and it returns 0.
+    \item \texttt{t2} finishes running \texttt{wi++}, so it becomes 2 and it returns 0, when it should be returning 1.
+    \item \texttt{t1} assigns \texttt{buffer[0] = c}.
+    \item \texttt{t2} assigns \texttt{buffer[0] = c}, overwritting the character that t1 wrote, and leaving \texttt{buffer[1]} with a previous character when \texttt{wi=2} means all values up to and excluding \texttt{buffer[wi]} are in the buffer and ready to read.
+\end{enumerate}
+
+\questionitem{Item d}
+\lstinputlisting[language=C, firstline=59, lastline=62, firstnumber=59]{2013N_06d.c}
+
+Added lines commented with \texttt{//<===}.
+\lstinputlisting[language=C, firstline=27, lastline=40, firstnumber=27]{2013N_06d.c}
+
+\lstinputlisting[language=C, firstline=47, lastline=57, firstnumber=47]{2013N_06d.c}
 
 \end{document}

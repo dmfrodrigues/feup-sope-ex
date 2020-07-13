@@ -1,7 +1,10 @@
+#include <fcntl.h>
 #include <pthread.h>
 #include <semaphore.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 #include <unistd.h>
 
 #define N 100   // buffer size
@@ -12,8 +15,13 @@ pthread_mutex_t mut = PTHREAD_MUTEX_INITIALIZER;
 sem_t canIread, canIwrite;
 
 int open_in_fifo(char* fifoName) {
-    /* TODO B: opens the FIFO and exits the thread if the open fails,  
-       otherwise returns the FIFO descriptor */
+    int fd = open(fifoName, O_RDONLY);
+    if(fd == -1){
+        int *status = malloc(sizeof(int));
+        *status = -1;
+        pthread_exit(status);
+    }
+    return fd;
 }
 
 void* receive(void* p) {
@@ -61,8 +69,14 @@ int main(int argc, char** argv) {
         exit(1);
     }
     init_semaphores();
-    /* TODO A: creates receive() threads, one for each input FIFO and
-               one send() thread, as well any other required code */
+
+    pthread_create(&st, NULL, send, argv[argc-1]);
+    const size_t n_threads = argc-1;
+    rt = calloc(n_threads, sizeof(pthread_t));
+    for(size_t i = 0; i < n_threads; ++i){
+        pthread_create(&rt[i], NULL, receive, argv[i+1]);
+    }
+
     free(rt);
     destroy_semaphores();
 
