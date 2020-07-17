@@ -12,55 +12,71 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: test tp01
-      run: timeout 900s make tp01
+      run: |
+        cd tp/tp01
+        timeout 900s make test
 
   test-tp02:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
     - name: test tp02
-      run: timeout 900s make tp02
+      run: |
+        cd tp/tp02
+        timeout 900s make test
 
   test-tp03:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
     - name: test tp03
-      run: timeout 900s make tp03
+      run: |
+        cd tp/tp03
+        timeout 900s make test
 
   test-tp04:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
     - name: test tp04
-      run: timeout 900s make tp04
+      run: |
+        cd tp/tp04
+        timeout 900s make test
 
   test-tp05:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
     - name: test tp05
-      run: timeout 900s make tp05
+      run: |
+        cd tp/tp05
+        timeout 900s make test
 
   test-tp06:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
     - name: test tp06
-      run: timeout 900s make tp06
+      run: |
+        cd tp/tp06
+        timeout 900s make test
 
   test-tp07:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
     - name: test tp07
-      run: timeout 900s make tp07
+      run: |
+        cd tp/tp07
+        timeout 900s make test
 
   test-exams:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
     - name: test exams
-      run: timeout 900s make exams
+      run: |
+        cd exams
+        make test
 
 
