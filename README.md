@@ -14,7 +14,7 @@
 
 ## Contents
 
-- Theoretical-practical lessons
+- [Theoretical-practical lessons](tp)
 - [Exam solutions](exams)
 
 ## Documents
