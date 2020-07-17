@@ -100,7 +100,7 @@
   {\normalfont\bfseries}{}{0pt}{\Huge}
 
 % Alias
-\setcounter{secnumdepth}{1}
+\setcounter{secnumdepth}{-2}
 \newcommand\exam[1]{\chapter{#1}}
 \newcommand\exampart[1]{\section{#1}}
 \newcommand\question[1]{\subsection{#1}}
