@@ -19,7 +19,7 @@
 
 ## Documents
 
-Documents are available as release assets.
+Documents are available as [release](https://github.com/dmfrodrigues/feup-sope-ex/releases) assets.
 
 Documents are also compiled by Github Actions; to see more recent versions go to [`Actions`](https://github.com/dmfrodrigues/feup-sope-ex/actions) > `Workflows` > [`Compile documents`](https://github.com/dmfrodrigues/feup-sope-ex/actions?query=workflow%3A%22Compile+documents%22), go to the most recent action and check `This run > Artifacts`.
 
