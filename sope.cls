@@ -5,10 +5,6 @@
 \RequirePackage[top=35mm,bottom=35mm,left=25mm,right=25mm]{geometry}
 % Tables with colored cells
 \RequirePackage[table]{xcolor}%
-% Graphics and images
-\RequirePackage{tikz}
-\RequirePackage{tikz-qtree}
-\usetikzlibrary{automata, positioning, arrows}
 % Encodings (to render letters with diacritics and special characters)
 \RequirePackage[utf8]{inputenc}
 \RequirePackage[T1]{fontenc}
