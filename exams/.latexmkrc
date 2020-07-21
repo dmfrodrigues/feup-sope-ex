@@ -1,1 +1,1 @@
-$ENV{'TEXINPUTS'}='..:' . $ENV{'TEXINPUTS'};
+$ENV{'TEXINPUTS'}='..:../latex-files:' . $ENV{'TEXINPUTS'};

@@ -44,28 +44,10 @@
 \RequirePackage{mathtools}
 \RequirePackage[inline]{enumitem}
 \RequirePackage[binary-units=true]{siunitx} %SI units
-% Definitions, theorems, remarks,...
-\RequirePackage{amsthm}
-\newtheorem{definition}{Definition}[section]
-\newtheorem{theorem}{Theorem}[section]
-\newtheorem{corollary}{Corollary}[theorem]
-\newtheorem{lemma}[theorem]{Lemma}
-\renewcommand\qedsymbol{$\blacksquare$}
-\theoremstyle{remark}
-\newtheorem*{remark}{Remark}
+
 % Answer separator
 \newcommand\ansseparator{\noindent\hfil\rule{0.5\textwidth}{.4pt}\hfil}
-% Copyright page
-\newenvironment{secondpage}{
-    \clearpage\null\vfill
-    \thispagestyle{empty}
-    \begin{minipage}[b]{0.9\textwidth}
-        \footnotesize\raggedright
-        \setlength{\parskip}{0.5\baselineskip}
-}{
-    \end{minipage}
-    \vspace*{2\baselineskip}
-}
+
 % Some work
 \def\title#1{\gdef\@title{#1}\gdef\@@title{#1}}
 \def\author#1{\gdef\@author{#1}\gdef\@@author{#1}}
