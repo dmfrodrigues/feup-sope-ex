@@ -12,19 +12,9 @@
 % Encodings (to render letters with diacritics and special characters)
 \RequirePackage[utf8]{inputenc}
 \RequirePackage[T1]{fontenc}
-% Source code
-\RequirePackage{listings}
-\renewcommand{\lstlistingname}{File}
-\lstset{
-    basicstyle=\ttfamily,
-    frame=tb, % draw frame at top and bottom of the code
-    tabsize=4, % tab space width
-    numbers=left, % display line numbers on the left
-    showstringspaces=false, % don't show spaces in strings
-    commentstyle=\color{green}, % comment color
-    keywordstyle=\color{blue}, % keyword color
-    stringstyle=\color{red} % string color
-}
+
+\RequirePackage{basiclistings}
+
 % Tables with diagonal slashes
 \RequirePackage{diagbox}
 % Directory trees
