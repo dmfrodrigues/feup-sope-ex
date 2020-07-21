@@ -4,6 +4,7 @@
 
 ![test](https://github.com/dmfrodrigues/feup-sope-ex/workflows/test/badge.svg)
 ![docs](https://github.com/dmfrodrigues/feup-sope-ex/workflows/docs/badge.svg)
+![docs](https://github.com/dmfrodrigues/feup-sope-ex/workflows/docs-extra/badge.svg)
 
 - **Institution:** [FEUP](https://sigarra.up.pt/feup/en/web_page.Inicial)
 - **Course:** [SOPE](https://sigarra.up.pt/feup/en/ucurr_geral.ficha_uc_view?pv_ocorrencia_id=436440) (Operating Systems)

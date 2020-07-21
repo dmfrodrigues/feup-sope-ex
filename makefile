@@ -3,6 +3,10 @@ LATEX=latexmk -synctex=1 -interaction=nonstopmode --shell-escape -pdf -quiet -si
 
 all: exams/SOPE_exams.pdf
 
+OUTFILES_EXTRA = $(shell find . -name "SOPE_*.tex" | sed 's/.tex/.pdf/g')
+
+extra: $(OUTFILES_EXTRA)
+
 test: FORCE
 	make -C tp test
 	make -C exams test
