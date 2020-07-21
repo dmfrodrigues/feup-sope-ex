@@ -12,8 +12,6 @@
 % Encodings (to render letters with diacritics and special characters)
 \RequirePackage[utf8]{inputenc}
 \RequirePackage[T1]{fontenc}
-% Hyperreferences
-\RequirePackage{hyperref}
 % Source code
 \RequirePackage{listings}
 \renewcommand{\lstlistingname}{File}
@@ -27,13 +25,6 @@
     keywordstyle=\color{blue}, % keyword color
     stringstyle=\color{red} % string color
 }
-% Tables with bold rows
-\RequirePackage{tabularx}
-\newcommand\setrow[1]{\gdef\rowmac{#1}#1\ignorespaces}
-\newcommand\clearrow{\global\let\rowmac\relax}
-\clearrow
-% Tables that can span across multiple pages
-\RequirePackage{longtable}
 % Tables with diagonal slashes
 \RequirePackage{diagbox}
 % Directory trees
