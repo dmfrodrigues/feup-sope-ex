@@ -11,7 +11,7 @@
 - **Subjects:** Structure and workings of an operating system, using a real operating system API
 - **Environment:** Linux
 - **Tools:** C, Linux API
-- **Course grade:** ?/20
+- **Course grade:** 19/20
 
 ## Contents
 
