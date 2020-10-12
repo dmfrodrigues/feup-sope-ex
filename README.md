@@ -5,6 +5,7 @@
 ![test](https://github.com/dmfrodrigues/feup-sope-ex/workflows/test/badge.svg)
 ![docs](https://github.com/dmfrodrigues/feup-sope-ex/workflows/docs/badge.svg)
 ![docs](https://github.com/dmfrodrigues/feup-sope-ex/workflows/docs-extra/badge.svg)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/52e2cee88368482ab96fd79dd8cad5a7)](https://www.codacy.com/gh/dmfrodrigues/feup-sope-ex/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=dmfrodrigues/feup-sope-ex&amp;utm_campaign=Badge_Grade)
 
 - **Institution:** [FEUP](https://sigarra.up.pt/feup/en/web_page.Inicial)
 - **Course:** [SOPE](https://sigarra.up.pt/feup/en/ucurr_geral.ficha_uc_view?pv_ocorrencia_id=436440) (Operating Systems)
